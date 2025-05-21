@@ -1,9 +1,13 @@
-node_modules/
-dist/
+# Dependencies
+node_modules
+
+# Environment variables
 .env
-.env.*
-!.env.example
-*.log
-.DS_Store
-coverage/
-.vscode/
+
+# Production build
+/build
+/dist
+
+# others
+.gitignore
+package-lock.json
