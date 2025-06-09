@@ -1,4 +1,5 @@
 import React from 'react'
+import WaveDivider from '../../components/WaveDivider'
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <WaveDivider />
     </div>
   )
 }
