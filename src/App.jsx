@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home/Home';
 import Headers from './components/Auth/header';
+import DonorDashboard from './pages/Dashboard/donor.dashborad';
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/user-dashboard" element={<DonorDashboard />} />
+
         <Route
           path="/*"
           element={
