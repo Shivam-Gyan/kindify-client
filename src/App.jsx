@@ -6,6 +6,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home/Home';
 import Headers from './components/Auth/header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
+import { DonorDashboardContent, DonorSettingsContent } from './components';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -27,7 +28,12 @@ function AppContent() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/user-dashboard" element={<DonorDashboard />} />
+        <Route path="/user-dashboard" element={<DonorDashboard />} >
+          <Route path='setting' element={<DonorSettingsContent/>} />
+          <Route path='dashboard' element={<DonorDashboardContent/>} />
+
+
+        </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />
         <Route

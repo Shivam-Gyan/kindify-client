@@ -1,6 +1,10 @@
+import { DashboardNavbar, DashboardNavigator, DonorDashboardContent, DonorSettingsContent } from '../../components'
 import React, { useState } from "react";
-import { DashboardNavbar, DashboardNavigator,DonorDashboardContent } from '../../components'
 import { donorDashboardData } from "../../content/data";
+
+import { AnimationWrapper } from '../../common';
+import { Outlet } from "react-router-dom";
+
 
 
 const DonorDashboard = () => {
@@ -10,28 +14,26 @@ const DonorDashboard = () => {
     console.log("User Dashboard Rendered");
 
     return (
-        <main className="flex flex-row h-screen w-full bg-white">
+        <AnimationWrapper>
+            <main className="flex flex-row h-screen w-screen bg-white">
 
-            {/* left-content */}
-            <DashboardNavigator data={donorDashboardData} setActiveTab={setActiveTab} />
+                {/* left-content */}
+                <DashboardNavigator data={donorDashboardData} setActiveTab={setActiveTab} />
 
-            {/* right-content */}
-            <section className=" w-full">
+                {/* right-content */}
+                <section className=" w-full">
 
-                {/* right top content navbar  */}
-                <DashboardNavbar />
+                    {/* right top content navbar  */}
+                    <DashboardNavbar />
 
-                {/* main content right-bottom content  */}
-                <div className="py-8 px-10 flex flex-col gap-4">
-
-                    <h1 className="text-2xl font-medium tracking-wide text-slate-500">{activeTab}</h1>
-
-                    <div className=" h-[60vh] w-full lg:w-[80vh]">
-                        <DonorDashboardContent />
+                    {/* main content right-bottom content  */}
+                    <div className="py-8 px-10 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-y-auto ">
+                        <h1 className="text-2xl font-medium tracking-wide text-slate-500">{activeTab}</h1>
+                        <Outlet/>
                     </div>
-                </div>
-            </section>
-        </main>
+                </section>
+            </main>
+        </AnimationWrapper>
     )
 }
 
