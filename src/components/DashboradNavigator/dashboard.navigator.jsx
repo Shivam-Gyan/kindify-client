@@ -24,10 +24,13 @@ const DashboardNavigator = ({ data, setActiveTab }) => {
                 <h1 className="my-2 text-xs font-medium tracking-widest text-slate-400">MENU</h1>
                 {
                     data.menu.map((item, index) => (
-                        <div key={index} onClick={() => handleActiveTabClick(item.name)} className={`flex ${index == 3 ? "bg-[#E4E7F4] text-slate-600" : ""} hover:bg-[#E4E7F4] tracking-wide text-slate-500 items-center gap-2 p-3 px-2 cursor-pointer`}>
+                        <NavLink to={item.link} key={index} onClick={() => handleActiveTabClick(item.name)} className={({ isActive }) =>
+                            `flex items-center gap-2 p-3 px-2 cursor-pointer tracking-wide text-slate-500  hover:text-slate-700  hover:bg-[#E4E7F4] ${isActive ? 'bg-[#E4E7F4] text-slate-700  font-semibold' : ''
+                            }`
+                        }>
                             <i className={`${item.icon} text-md mt-1`}></i>
                             <span to={item.link} className="text-sm font-medium">{item.name}</span>
-                        </div>
+                        </NavLink>
                     ))
                 }
             </div>
@@ -35,15 +38,18 @@ const DashboardNavigator = ({ data, setActiveTab }) => {
                 <h1 className="my-2 text-xs font-medium tracking-widest text-slate-400">OTHERS</h1>
                 {
                     data.other.map((item, index) => (
-                        <div key={index} onClick={() => handleActiveTabClick(item.name)} className={`flex ${index == 5 ? "bg-[#E4E7F4]" : ""} hover:bg-[#E4E7F4] tracking-wide text-slate-500 items-center gap-2 p-3 px-2 cursor-pointer`}>
+                        <NavLink to={item.link} key={index} onClick={() => handleActiveTabClick(item.name)} className={({ isActive }) =>
+                            `flex items-center gap-2 p-3 px-2 cursor-pointer tracking-wide text-slate-500 hover:text-slate-700  hover:bg-[#E4E7F4] ${isActive ? 'bg-[#E4E7F4] text-slate-700  font-semibold' : ''
+                            }`
+                        }>
                             <i className={`${item.icon} text-md mt-1`}></i>
                             <span className="text-sm font-medium">{item.name}</span>
-                        </div>
+                        </NavLink>
                     ))
                 }
             </div>
 
-        </section>
+        </section >
     )
 }
 

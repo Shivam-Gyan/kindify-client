@@ -1,44 +1,49 @@
 
 
 export const donorDashboardData = {
-    menu:[
+    menu: [
         {
             name: 'Dashboard',
             icon: 'fi fi-ss-apps',
-            link: '/user-dashboard'
+            link: '/user-dashboard/dashboard'
         },
         {
-            name:'Donations',
+            name: 'Donations',
             icon: 'fi fi-ss-donate',
-            link: '/donations'
+            link: '/uaer-dashboard/donations'
         },
         {
-            name:'notifications',
+            name: 'Notifications',
             icon: 'fi fi-sr-bell-notification-social-media',
-            link: '/notifications'
+            link: '/uaer-dashboard/notifications'
         },
         {
-            name:'Followed NGOs',
+            name: 'Followed NGOs',
             icon: 'fi fi-br-building-ngo',
-            link: '/followed-ngos'
+            link: '/user-dashboard/followed-ngos'
         }
     ],
-    other:[
+    other: [
         {
             name: 'Settings',
             icon: 'fi fi-sr-settings',
+            link: '/user-dashboard/setting'
         },
         {
-            name:'Account',
+            name: 'Account',
             icon: 'fi fi-sr-user-trust',
+            link: '/user-dashboard/account'
+            
         },
         {
             name: 'Logout',
             // icon: 'fi fi-sr-user-logout',
+            link: '/user-dashboard/logout',
             icon: 'fi fi-bs-exit',
         },
         {
             name: 'Contact & Help',
+            link: '/user-dashboard/help',
             icon: 'fi fi-sr-info',
         }
     ]
@@ -46,10 +51,10 @@ export const donorDashboardData = {
 }
 
 export const donations = [
-  { amount: 120, date: '2025-01-03T10:30:00Z' },
-  { amount: 180, date: '2025-01-09T13:45:00Z' },
-  { amount: 150, date: '2025-02-14T08:15:00Z' },
-  { amount: 300, date: '2025-02-20T09:20:00Z' },
-  { amount: 250, date: '2025-03-05T11:10:00Z' },
-  { amount: 200, date: '2025-03-22T12:00:00Z' }
+    { amount: 120, date: '2025-01-03T10:30:00Z' },
+    { amount: 180, date: '2025-01-09T13:45:00Z' },
+    { amount: 150, date: '2025-02-14T08:15:00Z' },
+    { amount: 300, date: '2025-02-20T09:20:00Z' },
+    { amount: 250, date: '2025-03-05T11:10:00Z' },
+    { amount: 200, date: '2025-03-22T12:00:00Z' }
 ];
