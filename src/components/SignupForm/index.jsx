@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from '../../services/auth.service';
 
 const SignupForm = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,10 @@ const SignupForm = () => {
     email: '',
     password: '',
   });
+  const [role, setRole] = useState('donor'); // Default role
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,14 +21,65 @@ const SignupForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement signup logic here
-    console.log('Signup attempt with:', formData);
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await authService.register(formData, role);
+      console.log('Registration successful:', response);
+      
+      // If email verification is required
+      if (response.message && response.message.includes('verify your email')) {
+        navigate('/verify-email', { 
+          state: { 
+            email: formData.email, 
+            role,
+            name: formData.name
+          }
+        });
+      } else {
+        navigate('/login', { 
+          state: { 
+            message: 'Registration successful. Please login.',
+            email: formData.email 
+          }
+        });
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError(err.message || 'Failed to register. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form className="w-full mt-6" onSubmit={handleSubmit}>
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          {error}
+        </div>
+      )}
+
+      {/* Role Selection */}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">Sign up as<span className="text-orange-400">*</span></label>
+        <select
+          value={role}
+          onChange={handleRoleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-gray-900 text-base"
+        >
+          <option value="donor">Donor</option>
+          <option value="ngo">NGO</option>
+        </select>
+      </div>
+
       {/* Social signup buttons */}
       <div className="flex gap-4 mb-6">
         <button type="button" className="flex-1 flex items-center justify-center border border-gray-300 rounded-lg py-2 font-medium text-gray-700 hover:bg-gray-50 transition">
@@ -35,6 +91,7 @@ const SignupForm = () => {
           Sign up with Google
         </button>
       </div>
+
       {/* Name */}
       <div className="mb-4">
         <label htmlFor="name" className="block text-gray-700 font-semibold mb-1">Name<span className="text-orange-400">*</span></label>
@@ -49,6 +106,7 @@ const SignupForm = () => {
           onChange={handleChange}
         />
       </div>
+
       {/* Email */}
       <div className="mb-4">
         <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">Email<span className="text-orange-400">*</span></label>
@@ -64,6 +122,7 @@ const SignupForm = () => {
           onChange={handleChange}
         />
       </div>
+
       {/* Password */}
       <div className="mb-6">
         <label htmlFor="password" className="block text-gray-700 font-semibold mb-1">Password<span className="text-orange-400">*</span></label>
@@ -79,13 +138,18 @@ const SignupForm = () => {
           onChange={handleChange}
         />
       </div>
+
       {/* Submit */}
       <button
         type="submit"
-        className="w-full bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 rounded-full text-lg transition mb-3 shadow-md"
+        disabled={loading}
+        className={`w-full bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 rounded-full text-lg transition mb-3 shadow-md ${
+          loading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
       >
-        Sign Up
+        {loading ? 'Signing up...' : 'Sign Up'}
       </button>
+
       {/* Login link */}
       <div className="text-center text-gray-700 text-base">
         Already have an account?{' '}
