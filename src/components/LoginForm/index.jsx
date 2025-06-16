@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [role, setRole] = useState('donor'); // Default role
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { message, email } = location.state || {};
+
+  // If email is provided from registration, pre-fill it
+  React.useEffect(() => {
+    if (email) {
+      setFormData(prev => ({ ...prev, email }));
+    }
+  }, [email]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,14 +30,52 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement login logic here
-    console.log('Login attempt with:', formData);
+    setError('');
+    setLoading(true);
+
+    try {
+      await login(formData, role);
+      navigate('/dashboard'); // Redirect to dashboard after successful login
+    } catch (err) {
+      setError(err.message || 'Failed to login. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <form className="w-full mt-6" onSubmit={handleSubmit}>
+      {message && (
+        <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+          {message}
+        </div>
+      )}
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+          {error}
+        </div>
+      )}
+      
+      {/* Role Selection */}
+      <div className="mb-4">
+        <label className="block text-gray-700 font-semibold mb-1">Login as<span className="text-orange-400">*</span></label>
+        <select
+          value={role}
+          onChange={handleRoleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-gray-900 text-base"
+        >
+          <option value="donor">Donor</option>
+          <option value="ngo">NGO</option>
+        </select>
+      </div>
+
       {/* Social login buttons */}
       <div className="flex gap-4 mb-6">
         <button type="button" className="flex-1 flex items-center justify-center border border-gray-300 rounded-lg py-2 font-medium text-gray-700 hover:bg-gray-50 transition">
@@ -34,6 +87,7 @@ const LoginForm = () => {
           Log in with Google
         </button>
       </div>
+
       {/* Email */}
       <div className="mb-4">
         <label htmlFor="email" className="block text-gray-700 font-semibold mb-1">Email<span className="text-orange-400">*</span></label>
@@ -49,6 +103,7 @@ const LoginForm = () => {
           onChange={handleChange}
         />
       </div>
+
       {/* Password */}
       <div className="mb-2">
         <label htmlFor="password" className="block text-gray-700 font-semibold mb-1">Password<span className="text-orange-400">*</span></label>
@@ -64,17 +119,23 @@ const LoginForm = () => {
           onChange={handleChange}
         />
       </div>
+
       {/* Forgot password */}
       <div className="mb-6 text-right">
-        <a href="#" className="text-sm text-orange-500 font-medium hover:underline">Forgot your password?</a>
+        <Link to="/forgot-password" className="text-sm text-orange-500 font-medium hover:underline">Forgot your password?</Link>
       </div>
+
       {/* Submit */}
       <button
         type="submit"
-        className="w-full bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 rounded-full text-lg transition mb-3 shadow-md"
+        disabled={loading}
+        className={`w-full bg-orange-400 hover:bg-orange-500 text-white font-bold py-3 rounded-full text-lg transition mb-3 shadow-md ${
+          loading ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
       >
-        Log in
+        {loading ? 'Logging in...' : 'Log in'}
       </button>
+
       {/* Sign up link */}
       <div className="text-center text-gray-700 text-base">
         Not a member?{' '}
