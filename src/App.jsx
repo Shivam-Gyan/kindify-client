@@ -7,6 +7,7 @@ import Home from './pages/Home/Home';
 import Headers from './components/Auth/header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
 import { DonorDashboardContent, DonorSettingsContent } from './components';
+import { Toaster } from 'react-hot-toast';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -26,6 +27,7 @@ const ProtectedRoute = ({ children }) => {
 function AppContent() {
   return (
       <Routes>
+       
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/user-dashboard" element={<DonorDashboard />} >
@@ -66,6 +68,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
+       <Toaster/>
       <AuthProvider>
         <AppContent />
       </AuthProvider>

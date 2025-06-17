@@ -9,7 +9,7 @@ import { Outlet } from "react-router-dom";
 
 const DonorDashboard = () => {
 
-    const [activeTab, setActiveTab] = useState("Dashboard");
+    const [activeTab, setActiveTab] = useState();
 
     console.log("User Dashboard Rendered");
 
@@ -27,8 +27,8 @@ const DonorDashboard = () => {
                     <DashboardNavbar />
 
                     {/* main content right-bottom content  */}
-                    <div className="py-8 px-10 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-y-auto ">
-                        <h1 className="text-2xl font-medium tracking-wide text-slate-500">{activeTab}</h1>
+                    <div className="py-8 max-lg:px-3 px-10 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-y-auto ">
+                        <h1 className="text-2xl max-lg:ml-6 ml-0 font-medium tracking-wide text-slate-500">{activeTab}</h1>
                         <Outlet/>
                     </div>
                 </section>
