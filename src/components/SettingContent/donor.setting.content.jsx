@@ -194,7 +194,9 @@ const DonorSettingsContent = () => {
                                 <input type="file" ref={fileInputRef} accept='.jpg,.png,.jpeg' hidden onChange={handleImageUplaod} className=' z-10' />
                             </span>
                             <span className='flex flex-col items-start gap-2'>
-                                <button onClick={handleUploadImageToServer} className='mt-2 w-fit  text-sm bg-indigo-100 text-slate-600 font-medium px-4 py-[5px] rounded-md hover:scale-[1.01]'>Uplaod avatar</button>
+                                <button onClick={handleUploadImageToServer} className='mt-2 w-fit flex items-center text-sm bg-indigo-100 text-slate-600 font-medium px-4 py-[5px] rounded-md hover:scale-[1.01]'>
+                                    <i className="fi fi-sr-cloud-upload-alt text-lg mr-2 mt-1"></i>Uplaod avatar
+                                </button>
                                 <p className='text-xs text-gray-400 ml-2'><span className='text-red-500 text-[16px] '>*</span>JPG, JPEG or PNG.(1MB max) </p>
                             </span>
                         </div>
@@ -235,6 +237,7 @@ const DonorSettingsContent = () => {
                                         onChange={(e) => setPersonalInformation({ ...personalInformation, address: e.target.value })}
                                         placeholder='location' className='w-full bg-transparent outline-none' />
                                 </div>
+                                <p className='text-gray-400 text-sm mb-5'><span className='text-red-500 text-lg '>*</span>Use proper address if adding any</p>
                                 <button onClick={(e) => handlepersonalInformationUpdate(e)} className='mt-2 w-32 py-1 bg-indigo-100 text-slate-600 font-medium rounded-md hover:scale-[1.01]'>Save</button>
                             </form>
                         </div>
@@ -266,13 +269,14 @@ const DonorSettingsContent = () => {
                                         placeholder='password' className='w-full bg-transparent outline-none' />
                                 </div>
                                 <h1 className='text-lg text-slate-600 font-medium mt-7 mb-1'>Latest password</h1>
-                                <div className='flex p-2  gap-2 bg-[#F1F2F7] rounded-md '>
+                                <div className='flex p-2 gap-2 bg-[#F1F2F7] rounded-md '>
                                     <i className="fi fi-ss-lock text-lg mt-2 text-gray-500"></i>
                                     <input type="text"
                                         value={password.newPassword}
                                         onChange={(e) => setPassword({ ...password, newPassword: e.target.value })}
                                         placeholder='password' className='w-full bg-transparent outline-none ' />
                                 </div>
+                                <p className='text-gray-400 text-sm mb-5'><span className='text-red-500 text-lg '>*</span>Current and Latest password should be distinct</p>
                                 <button onClick={handlePasswordChange} className='mt-2 w-32 py-1 bg-indigo-100 text-slate-600 hover:scale-[1.01] font-medium rounded-md '>Save</button>
                             </form>
                         </div>

@@ -5,46 +5,45 @@ export const donorDashboardData = {
         {
             name: 'Dashboard',
             icon: 'fi fi-ss-apps',
-            link: '/user-dashboard/dashboard'
+            link: '/donor-dashboard/dashboard'
         },
         {
             name: 'Donations',
             icon: 'fi fi-ss-donate',
-            link: '/uaer-dashboard/donations'
+            link: '/donor-dashboard/donations'
         },
         {
             name: 'Notifications',
             icon: 'fi fi-sr-bell-notification-social-media',
-            link: '/uaer-dashboard/notifications'
+            link: '/donor-dashboard/notifications'
         },
         {
             name: 'Followed NGOs',
             icon: 'fi fi-br-building-ngo',
-            link: '/user-dashboard/followed-ngos'
+            link: '/donor-dashboard/followed-ngos'
         }
     ],
     other: [
         {
             name: 'Settings',
             icon: 'fi fi-sr-settings',
-            link: '/user-dashboard/setting'
+            link: '/donor-dashboard/setting'
         },
         {
             name: 'Account',
             icon: 'fi fi-sr-user-trust',
-            link: '/user-dashboard/account'
+            link: '/donor-dashboard/account'
             
         },
         {
             name: 'Logout',
-            // icon: 'fi fi-sr-user-logout',
-            link: '/user-dashboard/logout',
             icon: 'fi fi-bs-exit',
+            link: '/donor-dashboard/logout',
         },
         {
             name: 'Contact & Help',
-            link: '/user-dashboard/help',
             icon: 'fi fi-sr-info',
+            link: '/donor-dashboard/help',
         }
     ]
 
