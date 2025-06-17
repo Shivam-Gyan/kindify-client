@@ -6,7 +6,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home/Home';
 import Headers from './components/Auth/header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
-import { DonorDashboardContent, DonorSettingsContent } from './components';
+import { DonorAccountContent, DonorDashboardContent, DonorSettingsContent } from './components';
 import { Toaster } from 'react-hot-toast';
 
 // Protected Route component
@@ -30,11 +30,10 @@ function AppContent() {
        
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/user-dashboard" element={<DonorDashboard />} >
+        <Route path="/donor-dashboard" element={<DonorDashboard />} >
           <Route path='setting' element={<DonorSettingsContent/>} />
           <Route path='dashboard' element={<DonorDashboardContent/>} />
-
-
+          <Route path='account' element={<DonorAccountContent/>} />
         </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />
