@@ -4,10 +4,12 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home/Home';
-import Headers from './components/Auth/header';
+import Headers from './components/Auth/Header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
 import { DonorAccountContent, DonorDashboardContent, DonorSettingsContent } from './components';
 import { Toaster } from 'react-hot-toast';
+import Landing from './pages/Landing/Landing';
+
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -69,7 +71,10 @@ function App() {
     <Router>
        <Toaster/>
       <AuthProvider>
-        <AppContent />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/*" element={<AppContent />} />
+        </Routes>
       </AuthProvider>
     </Router>
   );
