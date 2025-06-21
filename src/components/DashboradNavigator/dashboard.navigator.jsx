@@ -25,7 +25,7 @@ const DashboardNavigator = ({ data, setActiveTab }) => {
                 {
                     data.menu.map((item, index) => (
                         <NavLink to={item.link} key={index} onClick={() => handleActiveTabClick(item.name)} className={({ isActive }) =>
-                            `flex items-center gap-2 p-3 px-2 cursor-pointer tracking-wide text-slate-500  hover:text-slate-700  hover:bg-[#E4E7F4] ${isActive ? 'bg-[#E4E7F4] text-slate-700  font-semibold' : ''
+                            `flex items-center gap-2 p-3 px-2 cursor-pointer tracking-wide   hover:text-indigo-400  hover:bg-[#E4E7F4] ${isActive ? 'bg-[#E4E7F4] text-indigo-400 font-semibold ' : 'text-slate-500'
                             }`
                         }>
                             <i className={`${item.icon} text-md mt-1`}></i>
@@ -39,7 +39,7 @@ const DashboardNavigator = ({ data, setActiveTab }) => {
                 {
                     data.other.map((item, index) => (
                         <NavLink to={item.link} key={index} onClick={() => handleActiveTabClick(item.name)} className={({ isActive }) =>
-                            `flex items-center gap-2 p-3 px-2 cursor-pointer tracking-wide text-slate-500 hover:text-slate-700  hover:bg-[#E4E7F4] ${isActive ? 'bg-[#E4E7F4] text-slate-700  font-semibold' : ''
+                            `flex items-center gap-2 p-3 px-2 cursor-pointer tracking-wide text-slate-500 hover:text-indigo-400  hover:bg-[#E4E7F4] ${isActive ? 'bg-[#E4E7F4] text-indigo-400  font-semibold' : ''
                             }`
                         }>
                             <i className={`${item.icon} text-md mt-1`}></i>

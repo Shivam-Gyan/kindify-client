@@ -6,7 +6,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home/Home';
 import Headers from './components/Auth/Header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
-import { DonorAccountContent, DonorDashboardContent, DonorSettingsContent } from './components';
+import { DonorAccountContent, DonorDashboardContent, DonorDonations, DonorFollowedNGOs, DonorNotifications, DonorSettingsContent } from './components';
 import { Toaster } from 'react-hot-toast';
 import Landing from './pages/Landing/Landing';
 
@@ -36,6 +36,9 @@ function AppContent() {
           <Route path='setting' element={<DonorSettingsContent/>} />
           <Route path='dashboard' element={<DonorDashboardContent/>} />
           <Route path='account' element={<DonorAccountContent/>} />
+          <Route path='donations' element={<DonorDonations/>} />
+          <Route path='notifications' element={<DonorNotifications/>} />
+          <Route path='followed-ngos' element={<DonorFollowedNGOs/>} />
         </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />

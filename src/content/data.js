@@ -48,12 +48,3 @@ export const donorDashboardData = {
     ]
 
 }
-
-export const donations = [
-    { amount: 120, date: '2025-01-03T10:30:00Z' },
-    { amount: 180, date: '2025-01-09T13:45:00Z' },
-    { amount: 150, date: '2025-02-14T08:15:00Z' },
-    { amount: 300, date: '2025-02-20T09:20:00Z' },
-    { amount: 250, date: '2025-03-05T11:10:00Z' },
-    { amount: 200, date: '2025-03-22T12:00:00Z' }
-];

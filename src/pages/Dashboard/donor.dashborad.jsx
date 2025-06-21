@@ -1,4 +1,4 @@
-import { DashboardNavbar, DashboardNavigator, DonorDashboardContent, DonorSettingsContent } from '../../components'
+import { DashboardNavbar, DashboardNavigator, Footer } from '../../components'
 import React, { useState } from "react";
 import { donorDashboardData } from "../../content/data";
 
@@ -7,32 +7,40 @@ import { Outlet } from "react-router-dom";
 
 
 
-const DonorDashboard = () => {
 
-    const [activeTab, setActiveTab] = useState();
+const DonorDashboard = () => {
+    
+    const url= window.location.pathname;
+    const [activeTab, setActiveTab] = useState(url.split('/')[2]);
+
+    // const path = url.split('/')[2];
+    // console.log("Current Path:", path);
 
     console.log("User Dashboard Rendered");
 
     return (
         <AnimationWrapper>
-            <main className="flex flex-row h-screen w-screen bg-white">
+            <div className="flex flex-col overflow-hidden">
+                <main className="flex flex-row h-screen w-screen bg-white">
 
-                {/* left-content */}
-                <DashboardNavigator data={donorDashboardData} setActiveTab={setActiveTab} />
+                    {/* left-content */}
+                    <DashboardNavigator data={donorDashboardData} setActiveTab={setActiveTab} />
 
-                {/* right-content */}
-                <section className=" w-full">
+                    {/* right-content */}
+                    <section className=" w-full">
 
-                    {/* right top content navbar  */}
-                    <DashboardNavbar />
+                        {/* right top content navbar  */}
+                        <DashboardNavbar />
 
-                    {/* main content right-bottom content  */}
-                    <div className="py-8 max-lg:px-3 px-10 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-y-auto ">
-                        <h1 className="text-2xl max-lg:ml-6 ml-0 font-medium tracking-wide text-slate-500">{activeTab}</h1>
-                        <Outlet/>
-                    </div>
-                </section>
-            </main>
+                        {/* main content right-bottom content  */}
+                        <div className="py-8 max-lg:px-3 px-10 flex flex-col gap-4 h-[calc(100vh-4rem)] overflow-y-auto scroll-smooth ">
+                            <h1 className="text-2xl max-lg:ml-6 ml-0 font-medium tracking-wide text-slate-500 capitalize">{activeTab}</h1>
+                            <Outlet />
+                        </div>
+                    </section>
+                </main>
+                <Footer />
+            </div>
         </AnimationWrapper>
     )
 }
