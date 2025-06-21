@@ -31,10 +31,6 @@ const DonorAccountContent = () => {
             label: "Status",
             value: "Active"
         },
-        {
-            label: "Verified",
-            value: "Yes (Email Verified)"
-        },
     ];
     return (
         <AnimationWrapper>
@@ -59,7 +55,7 @@ const DonorAccountContent = () => {
                             <div className='h-10 w-[2px] bg-gray-300'></div>
                             <div className='flex flex-col items-center'>
                                 <p className='text-gray-500 text-sm'>Total Donated</p>
-                                <h1 className='text-xl font-medium text-slate-600'><i className="fi fi-br-indian-rupee-sign text-sm"></i>5000000.00</h1>
+                                <h1 className='text-xl font-medium text-slate-600'><span className='font-medium mr-1'>INR</span>5000000.00</h1>
                             </div>
                         </div>
                     </div>
@@ -67,19 +63,19 @@ const DonorAccountContent = () => {
                     {/* import tags */}
                     <div className='flex items-center justify-start gap-2 mt-7'>
                         {/* setting link */}
-                        <Link to={'/donor-dashboard/setting'} className='w-9 h-9 rounded-full flex items-center justify-center bg-[#F1F2F7] hover:rotate-45 duration-300'><i class="fi fi-sr-settings mt-2  "></i></Link>
+                        <Link to={'/donor-dashboard/setting'} className='w-9 h-9 rounded-full flex items-center justify-center hover:text-indigo-400 bg-[#F1F2F7] hover:rotate-45 duration-300'><i className="fi fi-sr-settings mt-2  "></i></Link>
 
                         {/* share link */}
-                        <span to={'/donor-dashboard/'} className='w-9 h-9 rounded-full flex items-center justify-center bg-[#F1F2F7] '><i class="fi fi-sr-share mt-2 "></i></span>
+                        <span to={'/donor-dashboard/account'} className='w-9 h-9 rounded-full flex items-center justify-center hover:text-indigo-400 bg-[#F1F2F7] '><i className="fi fi-sr-share mt-2 "></i></span>
 
                         {/* notification link */}
-                        <Link to={'/donor-dashboard/notification'} className='w-9 h-9 rounded-full flex items-center justify-center bg-[#F1F2F7] hover:rotate-12 duration-300'><i class="fi fi-sr-bell-notification-social-media mt-2  "></i></Link>
+                        <Link to={'/donor-dashboard/notification'} className='w-9 h-9 rounded-full flex items-center justify-center hover:text-indigo-400 bg-[#F1F2F7] hover:rotate-12 duration-300'><i className="fi fi-sr-bell-notification-social-media mt-2  "></i></Link>
 
                         {/* donations link */}
-                        <Link to={'/donor-dashboard/donations'} className='w-9 h-9 rounded-full flex items-center justify-center bg-[#F1F2F7] hover:rotate-12 duration-300'><i class="fi fi-sr-piggy-bank mt-2  "></i></Link>
+                        <Link to={'/donor-dashboard/donations'} className='w-9 h-9 rounded-full flex items-center justify-center hover:text-indigo-400 bg-[#F1F2F7] hover:rotate-12 duration-300'><i className="fi fi-sr-piggy-bank mt-2  "></i></Link>
 
                         {/* donations link */}
-                        <Link to={'/donor-dashboard/followed-ngos'} className='w-9 h-9 rounded-full flex items-center justify-center bg-[#F1F2F7]'><i className="fi fi-sr-following mt-2"></i></Link>
+                        <Link to={'/donor-dashboard/followed-ngos'} className='w-9 h-9 rounded-full flex items-center justify-center hover:text-indigo-400 bg-[#F1F2F7]'><i className="fi fi-sr-following mt-2"></i></Link>
                     </div>
                 </div>
 
