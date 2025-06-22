@@ -7,6 +7,8 @@ import Footer from "./LandingPage/Footer.jsx";
 import DonorDonations from "./Donor/donation.donor.jsx";
 import DonorNotifications from "./Donor/notification.donor.jsx";
 import DonorFollowedNGOs from "./Donor/followedNgos.donor.jsx";
+import ContactAndHelpComponent from "./ContactAndHelp/contact.help.jsx";
+import LogoutComponent from "./LogoutComponent/logout.jsx";
 
 
 export { 
@@ -19,5 +21,7 @@ export {
     DonorDonations,
     DonorNotifications,
     DonorFollowedNGOs,
+    ContactAndHelpComponent,
+    LogoutComponent
 
 };

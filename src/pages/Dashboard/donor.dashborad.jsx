@@ -11,12 +11,12 @@ import { Outlet } from "react-router-dom";
 const DonorDashboard = () => {
     
     const url= window.location.pathname;
-    const [activeTab, setActiveTab] = useState(url.split('/')[2]);
-
-    // const path = url.split('/')[2];
-    // console.log("Current Path:", path);
-
-    console.log("User Dashboard Rendered");
+    let path = url.split('/')[2];
+    
+    if(url.split('/')[2] === 'contact&help' ){
+        path = 'contact & help';
+    }
+    const [activeTab, setActiveTab] = useState(path);
 
     return (
         <AnimationWrapper>
