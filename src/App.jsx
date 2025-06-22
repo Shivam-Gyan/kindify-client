@@ -9,6 +9,7 @@ import DonorDashboard from './pages/Dashboard/donor.dashborad';
 import { DonorAccountContent, DonorDashboardContent, DonorDonations, DonorFollowedNGOs, DonorNotifications, DonorSettingsContent } from './components';
 import { Toaster } from 'react-hot-toast';
 import Landing from './pages/Landing/Landing';
+import CTAPage from './pages/CTA';
 
 
 // Protected Route component
@@ -31,7 +32,6 @@ function AppContent() {
       <Routes>
        
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
         <Route path="/donor-dashboard" element={<DonorDashboard />} >
           <Route path='setting' element={<DonorSettingsContent/>} />
           <Route path='dashboard' element={<DonorDashboardContent/>} />
@@ -76,6 +76,8 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/donate" element={<CTAPage />} />
           <Route path="/*" element={<AppContent />} />
         </Routes>
       </AuthProvider>

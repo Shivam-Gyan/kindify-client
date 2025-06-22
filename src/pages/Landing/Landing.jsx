@@ -6,7 +6,6 @@ import Features from '../../components/LandingPage/Causes';
 import HowItWorks from '../../components/LandingPage/HowItWorks';
 import Testimonials from '../../components/LandingPage/Testimonials';
 import FAQ from '../../components/LandingPage/FAQ';
-import CTA from '../../components/LandingPage/CTA';
 import Footer from '../../components/LandingPage/Footer';
 
 const Landing = () => {
@@ -19,7 +18,6 @@ const Landing = () => {
       <HowItWorks />
       <Testimonials />
       <FAQ />
-      <CTA />
       <Footer />
     </div>
   );

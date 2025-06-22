@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
-    <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white overflow-hidden">
+    <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white overflow-hidden min-h-screen flex items-center">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-black opacity-10"></div>
       <div className="absolute top-0 left-0 w-full h-full">
@@ -10,22 +11,22 @@ const Hero = () => {
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-white opacity-5 rounded-full"></div>
       </div>
       
-      <div className="relative z-10 container mx-auto px-6 py-24 lg:py-32">
+      <div className="relative z-10 container mx-auto px-6 py-16 lg:py-20 w-full">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
                 Empower Change with{' '}
                 <span className="text-yellow-300">Every Donation</span>
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-blue-100 leading-relaxed">
+              <p className="text-lg md:text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
                 Connect with verified NGOs and make a real impact. Kindify ensures transparency, 
                 accountability, and maximum impact for your charitable contributions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <a
-                  href="#donate"
+                <Link
+                  to="/donate"
                   className="inline-flex items-center justify-center bg-yellow-400 text-gray-900 font-semibold py-4 px-8 rounded-full hover:bg-yellow-300 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -33,7 +34,7 @@ const Hero = () => {
                     <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd"/>
                   </svg>
                   Start Donating
-                </a>
+                </Link>
                 <a
                   href="#how-it-works"
                   className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white font-semibold py-4 px-8 rounded-full hover:bg-white hover:text-blue-600 transition-all duration-300"

@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CTA = () => {
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white" id="donate">
+    <section className="py-20 px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -100,9 +101,12 @@ const CTA = () => {
               </div>
 
               <div className="space-y-4">
-                <button className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg">
+                <Link 
+                  to="/signup"
+                  className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg block text-center"
+                >
                   Donate Now
-                </button>
+                </Link>
                 
                 <button className="w-full bg-gray-100 text-gray-700 py-4 px-6 rounded-lg hover:bg-gray-200 transition-colors font-semibold">
                   Set Up Monthly Donation

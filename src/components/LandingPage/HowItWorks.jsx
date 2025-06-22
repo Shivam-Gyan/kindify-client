@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
   const steps = [
@@ -85,15 +86,15 @@ const HowItWorks = () => {
             <p className="text-gray-600 mb-6">
               Join thousands of donors who are already creating positive change through Kindify.
             </p>
-            <a
-              href="#donate"
+            <Link
+              to="/donate"
               className="inline-flex items-center bg-blue-600 text-white font-semibold py-4 px-8 rounded-full hover:bg-blue-700 transition-colors"
             >
               Start Donating Now
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
