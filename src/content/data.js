@@ -43,7 +43,7 @@ export const donorDashboardData = {
         {
             name: 'Contact & Help',
             icon: 'fi fi-sr-info',
-            link: '/donor-dashboard/help',
+            link: '/donor-dashboard/contact&help',
         }
     ]
 
