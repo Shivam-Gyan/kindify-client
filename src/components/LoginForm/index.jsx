@@ -53,7 +53,14 @@ const LoginForm = () => {
 
     try {
       await login(formData, role);
-      navigate('/dashboard'); // Redirect to dashboard after successful login
+      // Navigate to the correct dashboard based on role
+      if (role === 'donor') {
+        navigate('/donor-dashboard');
+      } else if (role === 'ngo') {
+        navigate('/ngo-dashboard');
+      } else {
+        navigate('/donor-dashboard'); // Default fallback
+      }
     } catch (err) {
       setError(err.message || 'Failed to login. Please try again.');
     } finally {

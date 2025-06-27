@@ -1,5 +1,3 @@
-
-
 export const donorDashboardData = {
     menu: [
         {
@@ -47,4 +45,66 @@ export const donorDashboardData = {
         }
     ]
 
+}
+
+export const ngoDashboardData = {
+    menu: [
+        {
+            name: 'Dashboard',
+            icon: 'fi fi-ss-apps',
+            link: '/ngo-dashboard/dashboard'
+        },
+        {
+            name: 'Campaigns',
+            icon: 'fi fi-ss-fundraising',
+            link: '/ngo-dashboard/campaigns'
+        },
+        {
+            name: 'Donations',
+            icon: 'fi fi-ss-donate',
+            link: '/ngo-dashboard/donations'
+        },
+        {
+            name: 'Impact Reports',
+            icon: 'fi fi-ss-chart-line-up',
+            link: '/ngo-dashboard/impact-reports'
+        },
+        {
+            name: 'Messages',
+            icon: 'fi fi-ss-comment',
+            link: '/ngo-dashboard/messages'
+        },
+        {
+            name: 'Withdrawals',
+            icon: 'fi fi-ss-bank',
+            link: '/ngo-dashboard/withdrawals'
+        },
+        {
+            name: 'Notifications',
+            icon: 'fi fi-sr-bell-notification-social-media',
+            link: '/ngo-dashboard/notifications'
+        }
+    ],
+    other: [
+        {
+            name: 'Profile & Verification',
+            icon: 'fi fi-sr-user-trust',
+            link: '/ngo-dashboard/profile'
+        },
+        {
+            name: 'Settings',
+            icon: 'fi fi-sr-settings',
+            link: '/ngo-dashboard/settings'
+        },
+        {
+            name: 'Logout',
+            icon: 'fi fi-bs-exit',
+            link: '/ngo-dashboard/logout',
+        },
+        {
+            name: 'Contact & Help',
+            icon: 'fi fi-sr-info',
+            link: '/ngo-dashboard/contact&help',
+        }
+    ]
 }

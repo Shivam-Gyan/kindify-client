@@ -10,6 +10,16 @@ import { ContactAndHelpComponent, DonorAccountContent, DonorDashboardContent, Do
 import { Toaster } from 'react-hot-toast';
 import Landing from './pages/Landing/Landing';
 import CTAPage from './pages/CTA';
+import NGODashboard from './pages/Dashboard/ngo.dashboard';
+import {
+  NGODashboardContent,
+  CampaignsNGO,
+  DonationsNGO,
+  ImpactReportsNGO,
+  MessagesNGO,
+  WithdrawalsNGO,
+  NotificationsNGO
+} from './components';
 
 
 // Protected Route component
@@ -44,6 +54,18 @@ function AppContent() {
           <Route path='followed-ngos' element={<DonorFollowedNGOs/>} />
           <Route path='contact&help' element={<ContactAndHelpComponent/>} />
           <Route path='logout' element={<LogoutComponent/>} />
+        </Route>
+
+        {/* NGO dashboard routing */}
+        <Route path="/ngo-dashboard" element={<NGODashboard />} >
+          <Route path='dashboard' element={<NGODashboardContent/>} />
+          <Route path='campaigns' element={<CampaignsNGO/>} />
+          <Route path='donations' element={<DonationsNGO/>} />
+          <Route path='impact-reports' element={<ImpactReportsNGO/>} />
+          <Route path='messages' element={<MessagesNGO/>} />
+          <Route path='withdrawals' element={<WithdrawalsNGO/>} />
+          <Route path='notifications' element={<NotificationsNGO/>} />
+          {/* Add profile, settings, logout, contact&help as needed */}
         </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />
