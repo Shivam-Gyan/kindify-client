@@ -50,7 +50,7 @@ const Testimonials = () => {
     return [...Array(5)].map((_, index) => (
       <svg
         key={index}
-        className={`w-5 h-5 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
+        className={`w-4 h-4 sm:w-5 sm:h-5 ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -60,24 +60,24 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-20 px-6 bg-white" id="testimonials">
+    <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white" id="testimonials">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Donors Say</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">What Our Donors Say</h2>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Hear from our community of donors who are making a real difference 
             through transparent and impactful giving.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition-shadow duration-300">
+            <div key={index} className="bg-gray-50 p-6 sm:p-8 rounded-2xl hover:shadow-lg transition-shadow duration-300">
               <div className="flex items-center mb-4">
                 {renderStars(testimonial.rating)}
               </div>
               
-              <p className="text-gray-600 mb-6 leading-relaxed italic">
+              <p className="text-gray-600 mb-6 leading-relaxed italic text-sm sm:text-base">
                 "{testimonial.content}"
               </p>
               
@@ -85,27 +85,27 @@ const Testimonials = () => {
                 <img
                   src={testimonial.image}
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full mr-4"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-3 sm:mr-4"
                 />
                 <div>
-                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-600">{testimonial.role}</div>
+                  <div className="font-semibold text-gray-900 text-sm sm:text-base">{testimonial.name}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">{testimonial.role}</div>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-16">
-          <div className="bg-blue-600 text-white p-8 rounded-2xl">
-            <h3 className="text-2xl font-bold mb-4">Join Our Community</h3>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+        <div className="text-center mt-12 sm:mt-16">
+          <div className="bg-blue-600 text-white p-6 sm:p-8 rounded-2xl">
+            <h3 className="text-xl sm:text-2xl font-bold mb-4">Join Our Community</h3>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto text-sm sm:text-base">
               Be part of a growing community of donors who are creating positive change 
               through transparent and impactful giving.
             </p>
             <a
               href="#donate"
-              className="inline-flex items-center bg-white text-blue-600 font-semibold py-3 px-6 rounded-full hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center bg-white text-blue-600 font-semibold py-3 sm:py-3 px-6 sm:px-6 rounded-full hover:bg-gray-100 transition-colors text-sm sm:text-base"
             >
               Start Your Giving Journey
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

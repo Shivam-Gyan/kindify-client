@@ -70,9 +70,136 @@ const NGODashboardContent = () => {
             time: '5 days ago',
         },
     ];
+
+    // Mock verification status
+    const verificationStatus = {
+        status: 'verified', // 'verified', 'pending', 'rejected'
+        lastUpdated: '2024-01-10',
+        documents: [
+            { name: 'Darpan Certificate', status: 'verified' },
+            { name: 'Registration Certificate', status: 'verified' },
+            { name: 'Bank Statement', status: 'verified' },
+            { name: 'Audit Report', status: 'pending' }
+        ]
+    };
+
+    // Mock reminder cards
+    const pendingTasks = [
+        {
+            id: 1,
+            title: 'Update Profile',
+            description: 'Complete your NGO profile to increase donor trust',
+            priority: 'high',
+            icon: '📝',
+            action: 'Update Now'
+        },
+        {
+            id: 2,
+            title: 'Add New Campaign',
+            description: 'Create a new campaign to reach more donors',
+            priority: 'medium',
+            icon: '📊',
+            action: 'Create Campaign'
+        },
+        {
+            id: 3,
+            title: 'Upload Impact Report',
+            description: 'Share your latest impact with donors',
+            priority: 'medium',
+            icon: '📈',
+            action: 'Upload Report'
+        }
+    ];
+
+    const getVerificationBadge = (status) => {
+        switch (status) {
+            case 'verified':
+                return (
+                    <div className="flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        Verified
+                    </div>
+                );
+            case 'pending':
+                return (
+                    <div className="flex items-center bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                        </svg>
+                        Pending
+                    </div>
+                );
+            case 'rejected':
+                return (
+                    <div className="flex items-center bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                        Rejected
+                    </div>
+                );
+            default:
+                return null;
+        }
+    };
+
+    const getPriorityColor = (priority) => {
+        switch (priority) {
+            case 'high': return 'border-red-200 bg-red-50';
+            case 'medium': return 'border-yellow-200 bg-yellow-50';
+            case 'low': return 'border-blue-200 bg-blue-50';
+            default: return 'border-gray-200 bg-gray-50';
+        }
+    };
+
     return (
         <AnimationWrapper>
             <main className="flex flex-col gap-10 border-t-[1px] py-10 border-gray-200 mt-4 mb-6 px-2 md:px-0">
+                {/* Verification Status Banner */}
+                <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                            <div className="text-3xl">🔒</div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-800">Verification Status</h3>
+                                <p className="text-sm text-gray-600">Last updated: {new Date(verificationStatus.lastUpdated).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                        {getVerificationBadge(verificationStatus.status)}
+                    </div>
+                    
+                    {verificationStatus.status === 'verified' && (
+                        <div className="mt-4 p-4 bg-green-50 rounded-lg">
+                            <p className="text-sm text-green-800">
+                                ✅ Your NGO is verified and eligible to receive donations. All major documents have been approved.
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Pending Tasks Reminder Cards */}
+                <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Pending Tasks</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {pendingTasks.map((task) => (
+                            <div key={task.id} className={`border rounded-lg p-4 ${getPriorityColor(task.priority)}`}>
+                                <div className="flex items-start space-x-3">
+                                    <div className="text-2xl">{task.icon}</div>
+                                    <div className="flex-1">
+                                        <h4 className="font-medium text-gray-800 mb-1">{task.title}</h4>
+                                        <p className="text-sm text-gray-600 mb-3">{task.description}</p>
+                                        <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                                            {task.action} →
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 {/* Stats Cards */}
                 <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[

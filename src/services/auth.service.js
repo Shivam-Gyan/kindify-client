@@ -40,6 +40,26 @@ const authService = {
         }
     },
 
+    // Google OAuth methods
+    googleAuth: async (googleToken, role) => {
+        try {
+            console.log('Attempting Google auth with role:', role);
+            const response = await api.post(`/google-auth/${role}`, { 
+                googleToken,
+                role 
+            });
+            console.log('Google auth response:', response.data);
+            
+            if (response.data.token) {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }
+            return response.data;
+        } catch (error) {
+            console.error('Google auth error:', error.response?.data || error.message);
+            throw error.response?.data || { message: 'An error occurred during Google authentication' };
+        }
+    },
+
     verifyOtp: async ({ email, otp, role }) => {
         try {
             console.log('Verifying OTP for:', { email, role });

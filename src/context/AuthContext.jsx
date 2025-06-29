@@ -28,6 +28,18 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const googleAuth = async (googleToken, role) => {
+        try {
+            setError(null);
+            const data = await authService.googleAuth(googleToken, role);
+            setUser(data);
+            return data;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        }
+    };
+
     const logout = () => {
         authService.logout();
         setUser(null);
@@ -38,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         error,
         login,
+        googleAuth,
         logout,
         isAuthenticated: !!user
     };

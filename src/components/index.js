@@ -2,6 +2,7 @@ import DashboardNavigator from "./DashboradNavigator/dashboard.navigator.jsx";
 import DashboardNavbar from "./DashboardNavbar/dashboard.navbar.jsx";
 import DonorDashboardContent from "./DashboardContent/donor.dashboard.content.jsx";
 import DonorSettingsContent from "./SettingContent/donor.setting.content.jsx";
+import NGOSettingsContent from "./SettingContent/ngo.setting.content.jsx";
 import DonorAccountContent from "./AccountContent/donor.account.content.jsx";
 import Footer from "./LandingPage/Footer.jsx";
 import DonorDonations from "./Donor/donation.donor.jsx";
@@ -23,6 +24,7 @@ export {
     DashboardNavbar,
     DonorDashboardContent,
     DonorSettingsContent,
+    NGOSettingsContent,
     DonorAccountContent,
     Footer,
     DonorDonations,

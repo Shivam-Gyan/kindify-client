@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -6,7 +7,7 @@ import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home/Home';
 import Headers from './components/Auth/Header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
-import { ContactAndHelpComponent, DonorAccountContent, DonorDashboardContent, DonorDonations, DonorFollowedNGOs, DonorNotifications, DonorSettingsContent, LogoutComponent } from './components';
+import { ContactAndHelpComponent, DonorAccountContent, DonorDashboardContent, DonorDonations, DonorFollowedNGOs, DonorNotifications, DonorSettingsContent, LogoutComponent, NGOSettingsContent } from './components';
 import { Toaster } from 'react-hot-toast';
 import Landing from './pages/Landing/Landing';
 import CTAPage from './pages/CTA';
@@ -20,7 +21,11 @@ import {
   WithdrawalsNGO,
   NotificationsNGO
 } from './components';
+import DonorHome from './pages/Home/DonorHome';
+import NGOHome from './pages/Home/NGOHome';
 
+// Google OAuth Client ID - Replace with your actual Google OAuth Client ID
+const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // You'll need to replace this with your actual Google OAuth Client ID
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -65,7 +70,9 @@ function AppContent() {
           <Route path='messages' element={<MessagesNGO/>} />
           <Route path='withdrawals' element={<WithdrawalsNGO/>} />
           <Route path='notifications' element={<NotificationsNGO/>} />
-          {/* Add profile, settings, logout, contact&help as needed */}
+          <Route path='settings' element={<NGOSettingsContent/>} />
+          <Route path='contact&help' element={<ContactAndHelpComponent/>} />
+          <Route path='logout' element={<LogoutComponent/>} />
         </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />
@@ -92,23 +99,27 @@ function AppContent() {
           </ProtectedRoute>
           }
         />
+        <Route path="/donor-home" element={<ProtectedRoute><DonorHome /></ProtectedRoute>} />
+        <Route path="/ngo-home" element={<ProtectedRoute><NGOHome /></ProtectedRoute>} />
       </Routes>
   );
 }
 
 function App() {
   return (
-    <Router>
-       <Toaster/>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/donate" element={<CTAPage />} />
-          <Route path="/*" element={<AppContent />} />
-        </Routes>
-      </AuthProvider>
-    </Router>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <Router>
+         <Toaster/>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/donate" element={<CTAPage />} />
+            <Route path="/*" element={<AppContent />} />
+          </Routes>
+        </AuthProvider>
+      </Router>
+    </GoogleOAuthProvider>
   );
 }
 
