@@ -108,3 +108,45 @@ export const ngoDashboardData = {
         }
     ]
 }
+
+export const adminDashboardData = {
+    menu: [
+        {
+            name: 'Dashboard',
+            icon: 'fi fi-ss-apps',
+            link: '/admin-dashboard/dashboard'
+        },
+        {
+            name: 'Moderate NGOs',
+            icon: 'fi fi-br-building-ngo',
+            link: '/admin-dashboard/ngo-moderation'
+        },
+        {
+            name: 'Users',
+            icon: 'fi fi-sr-users',
+            link: '/admin-dashboard/users'
+        },
+        {
+            name: 'Reports',
+            icon: 'fi fi-sr-flag',
+            link: '/admin-dashboard/reports'
+        },
+        {
+            name: 'Notifications',
+            icon: 'fi fi-sr-bell-notification-social-media',
+            link: '/admin-dashboard/notifications'
+        }
+    ],
+    other: [
+        {
+            name: 'Settings',
+            icon: 'fi fi-sr-settings',
+            link: '/admin-dashboard/settings'
+        },
+        {
+            name: 'Logout',
+            icon: 'fi fi-bs-exit',
+            link: '/admin-dashboard/logout',
+        }
+    ]
+}

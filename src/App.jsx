@@ -7,11 +7,28 @@ import VerifyEmail from './pages/VerifyEmail';
 import Home from './pages/Home/Home';
 import Headers from './components/Auth/Header';
 import DonorDashboard from './pages/Dashboard/donor.dashborad';
-import { ContactAndHelpComponent, DonorAccountContent, DonorDashboardContent, DonorDonations, DonorFollowedNGOs, DonorNotifications, DonorSettingsContent, LogoutComponent, NGOSettingsContent } from './components';
+import { 
+    ContactAndHelpComponent, 
+    DonorAccountContent, 
+    DonorDashboardContent, 
+    DonorDonations, 
+    DonorFollowedNGOs, 
+    DonorNotifications, 
+    DonorSettingsContent, 
+    LogoutComponent, 
+    NGOSettingsContent,
+    // Admin Components
+    AdminDashboardContent,
+    AdminNGOModeration,
+    AdminUsers,
+    AdminReports,
+    AdminNotifications
+} from './components';
 import { Toaster } from 'react-hot-toast';
 import Landing from './pages/Landing/Landing';
 import CTAPage from './pages/CTA';
 import NGODashboard from './pages/Dashboard/ngo.dashboard';
+import AdminDashboard from './pages/Dashboard/admin.dashboard';
 import {
   NGODashboardContent,
   CampaignsNGO,
@@ -71,6 +88,17 @@ function AppContent() {
           <Route path='withdrawals' element={<WithdrawalsNGO/>} />
           <Route path='notifications' element={<NotificationsNGO/>} />
           <Route path='settings' element={<NGOSettingsContent/>} />
+          <Route path='contact&help' element={<ContactAndHelpComponent/>} />
+          <Route path='logout' element={<LogoutComponent/>} />
+        </Route>
+
+        {/* Admin dashboard routing */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />} >
+          <Route path='dashboard' element={<AdminDashboardContent/>} />
+          <Route path='ngo-moderation' element={<AdminNGOModeration/>} />
+          <Route path='users' element={<AdminUsers/>} />
+          <Route path='reports' element={<AdminReports/>} />
+          <Route path='notifications' element={<AdminNotifications/>} />
           <Route path='contact&help' element={<ContactAndHelpComponent/>} />
           <Route path='logout' element={<LogoutComponent/>} />
         </Route>
