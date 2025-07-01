@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import GoogleOAuth from '../Auth/GoogleOAuth';
+import DropDownOptions from '../DropDownOption/index.jsx';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -10,12 +11,12 @@ const LoginForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [role, setRole] = useState('donor'); // Default role
+  const [role, setRole] = useState(''); // Default role
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { message, email } = location.state || {};
-  
+
   // Get role from URL parameters
   const urlParams = new URLSearchParams(location.search);
   const roleFromUrl = urlParams.get('role');
@@ -41,10 +42,6 @@ const LoginForm = () => {
       ...prevState,
       [name]: value
     }));
-  };
-
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -88,7 +85,7 @@ const LoginForm = () => {
           </div>
         </div>
       )}
-      
+
       {error && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
           <div className="flex">
@@ -107,14 +104,7 @@ const LoginForm = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Login as <span className="text-red-500">*</span>
             </label>
-            <select
-              value={role}
-              onChange={handleRoleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 text-sm"
-            >
-              <option value="donor">Donor</option>
-              <option value="ngo">NGO</option>
-            </select>
+            <DropDownOptions setSelectOption={setRole} selectOption={role} options={["Select option","Donor","NGO"]} className={" rounded-md text-[16px] "}/>
           </div>
         )}
 
@@ -167,6 +157,16 @@ const LoginForm = () => {
             value={formData.password}
             onChange={handleChange}
           />
+        </div>
+
+        {/* Forgot Password */}
+        <div className="flex items-center justify-end">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-blue-600 hover:text-blue-500 font-medium transition-colors"
+          >
+            Forgot your password?
+          </Link>
         </div>
 
         {/* Submit Button */}
