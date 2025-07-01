@@ -10,6 +10,7 @@ import DonorNotifications from "./Donor/notification.donor.jsx";
 import DonorFollowedNGOs from "./Donor/followedNgos.donor.jsx";
 import ContactAndHelpComponent from "./ContactAndHelp/contact.help.jsx";
 import LogoutComponent from "./LogoutComponent/logout.jsx";
+import DropDownOptions from './DropDownOption/index.jsx';
 import NGODashboardContent from "./DashboardContent/ngo.dashboard.content.jsx";
 import CampaignsNGO from "./NGO/campaigns.ngo.jsx";
 import DonationsNGO from "./NGO/donations.ngo.jsx";
@@ -17,7 +18,7 @@ import ImpactReportsNGO from "./NGO/impact.reports.ngo.jsx";
 import MessagesNGO from "./NGO/messages.ngo.jsx";
 import WithdrawalsNGO from "./NGO/withdrawals.ngo.jsx";
 import NotificationsNGO from "./NGO/notifications.ngo.jsx";
-
+import DonorSignupComponent from "./SignupForm/donor.signup.component.jsx";
 // Admin Components
 import AdminDashboardContent from "./Admin/admin.dashboard.content.jsx";
 import AdminNGOModeration from "./Admin/admin.ngoModeration.jsx";
@@ -41,6 +42,7 @@ export {
     DonorFollowedNGOs,
     ContactAndHelpComponent,
     LogoutComponent,
+    DropDownOptions,
     NGODashboardContent,
     CampaignsNGO,
     DonationsNGO,
@@ -48,6 +50,7 @@ export {
     MessagesNGO,
     WithdrawalsNGO,
     NotificationsNGO,
+    DonorSignupComponent,
     // Admin Components
     AdminDashboardContent,
     AdminNGOModeration,

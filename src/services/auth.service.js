@@ -14,12 +14,11 @@ const api = axios.create({
 const authService = {
     login: async (credentials, role) => {
         try {
-            console.log('Attempting login with:', { ...credentials, role });
             const response = await api.post(`/login/${role}`, credentials);
             console.log('Login response:', response.data);
             
             if (response.data.token) {
-                localStorage.setItem('user', JSON.stringify(response.data));
+                localStorage.setItem('token', JSON.stringify(response.data.token));
             }
             return response.data;
         } catch (error) {
@@ -85,11 +84,23 @@ const authService = {
     },
 
     logout: () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+    },
+
+    updatePhoneProfileImage :async(data)=>{
+        
+        try {
+          
+            const response = await api.post(`/update-phone-image`, data);
+            return response.data;
+        } catch (error) {
+            console.error('OTP verification error:', error.response?.data || error.message);
+            throw error.response?.data || { message: 'Failed to verify OTP' };
+        }
     },
 
     getCurrentUser: () => {
-        return JSON.parse(localStorage.getItem('user'));
+        return JSON.parse(localStorage.getItem('token'));
     }
 };
 

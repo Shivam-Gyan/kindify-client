@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
+import DropDownOptions from "../DropDownOption";
 import GoogleOAuth from "../Auth/GoogleOAuth";
 
 const SignupForm = () => {
@@ -9,7 +10,7 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
-  const [role, setRole] = useState("donor"); // Default role
+  const [role, setRole] = useState(""); // Default role
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -95,34 +96,27 @@ const SignupForm = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Social Signup Section */}
         <div className="space-y-3">
-          <div className="relative">
+
+
+          {/* Google OAuth Component */}
+          <GoogleOAuth role={role} mode="signup" />
+          <div className="relative top-2">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                Or continue with
+              <span className="px-2 bg-white text-xl font-semibold  text-gray-400">
+                OR 
               </span>
             </div>
           </div>
-
-          {/* Google OAuth Component */}
-          <GoogleOAuth role={role} mode="signup" />
         </div>
 
-        <div>
+        <div className="">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Sign up as <span className="text-red-500">*</span>
+            Who Are You ? <span className="text-red-500">*</span>
           </label>
-          <select
-            value={role}
-            onChange={handleRoleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 text-sm"
-          >
-            <option value="donor">Choose your role (donor or NGO)</option>
-            <option value="donor">Donor</option>
-            <option value="ngo">NGO</option>
-          </select>
+          <DropDownOptions setSelectOption={setRole} selectOption={role} options={["Select your role","Donor","NGO"]} className={" rounded-md text-[16px] "}/>
         </div>
 
         {/* Name Field */}
@@ -131,7 +125,7 @@ const SignupForm = () => {
             htmlFor="name"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Full name <span className="text-red-500">*</span>
+            {role == "Donor" ? "Full name ":"Oragnization name "}<span className="text-red-500">*</span>
           </label>
           <input
             id="name"
@@ -140,7 +134,7 @@ const SignupForm = () => {
             autoComplete="name"
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 text-sm placeholder-gray-400"
-            placeholder="Enter your full name"
+            placeholder="Name"
             value={formData.name}
             onChange={handleChange}
           />
@@ -161,7 +155,7 @@ const SignupForm = () => {
             autoComplete="email"
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900 text-sm placeholder-gray-400"
-            placeholder="Enter your email"
+            placeholder="Email"
             value={formData.email}
             onChange={handleChange}
           />
@@ -186,6 +180,9 @@ const SignupForm = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          <p className="mt-1 text-xs text-gray-500">
+           <span className="text-red-500 text-lg">*</span> Must be at least 8 characters long
+          </p>
         </div>
 
         {/* Submit Button */}

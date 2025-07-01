@@ -15,7 +15,7 @@ import {
     DonorFollowedNGOs, 
     DonorNotifications, 
     DonorSettingsContent, 
-    LogoutComponent, 
+    DonorSignupComponent, LogoutComponent, 
     NGOSettingsContent,
     // Admin Components
     AdminDashboardContent,
@@ -29,6 +29,7 @@ import Landing from './pages/Landing/Landing';
 import CTAPage from './pages/CTA';
 import NGODashboard from './pages/Dashboard/ngo.dashboard';
 import AdminDashboard from './pages/Dashboard/admin.dashboard';
+import Index from './components/InputComponent';
 import {
   NGODashboardContent,
   CampaignsNGO,
@@ -43,6 +44,8 @@ import NGOHome from './pages/Home/NGOHome';
 
 // Google OAuth Client ID - Replace with your actual Google OAuth Client ID
 const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // You'll need to replace this with your actual Google OAuth Client ID
+import SignupForm from './pages/SignupPage/signup.jsx';
+import NgoSingupComponent from './components/SignupForm/ngo.signup.component';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -61,22 +64,23 @@ const ProtectedRoute = ({ children }) => {
 
 function AppContent() {
   return (
-      <Routes>
-       
-        <Route path="/login" element={<Login />} />
-        
+    <Routes>
 
-        {/* donor dashboard routing */}
-        <Route path="/donor-dashboard" element={<DonorDashboard />} >
-          <Route path='setting' element={<DonorSettingsContent/>} />
-          <Route path='dashboard' element={<DonorDashboardContent/>} />
-          <Route path='account' element={<DonorAccountContent/>} />
-          <Route path='donations' element={<DonorDonations/>} />
-          <Route path='notifications' element={<DonorNotifications/>} />
-          <Route path='followed-ngos' element={<DonorFollowedNGOs/>} />
-          <Route path='contact&help' element={<ContactAndHelpComponent/>} />
-          <Route path='logout' element={<LogoutComponent/>} />
-        </Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/ngo-registration" element={<Index />} />
+
+
+      {/* donor dashboard routing */}
+      <Route path="/donor-dashboard" element={<DonorDashboard />} >
+        <Route path='setting' element={<DonorSettingsContent />} />
+        <Route path='dashboard' element={<DonorDashboardContent />} />
+        <Route path='account' element={<DonorAccountContent />} />
+        <Route path='donations' element={<DonorDonations />} />
+        <Route path='notifications' element={<DonorNotifications />} />
+        <Route path='followed-ngos' element={<DonorFollowedNGOs />} />
+        <Route path='contact&help' element={<ContactAndHelpComponent />} />
+        <Route path='logout' element={<LogoutComponent />} />
+      </Route>
 
         {/* NGO dashboard routing */}
         <Route path="/ngo-dashboard" element={<NGODashboard />} >
@@ -104,9 +108,9 @@ function AppContent() {
         </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route
-          path="/*"
-          element={
+      <Route
+        path="/*"
+        element={
           <ProtectedRoute>
             <>
               <Headers />
@@ -125,11 +129,11 @@ function AppContent() {
               </div>
             </>
           </ProtectedRoute>
-          }
-        />
+        }
+      />
         <Route path="/donor-home" element={<ProtectedRoute><DonorHome /></ProtectedRoute>} />
         <Route path="/ngo-home" element={<ProtectedRoute><NGOHome /></ProtectedRoute>} />
-      </Routes>
+    </Routes>
   );
 }
 
@@ -137,11 +141,14 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <Router>
-         <Toaster/>
+        <Toaster />
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/signup/"  element={<SignupForm />}>
+            {/* <Route path="donor" element={<DonorSignupComponent role={'donor'} />} />
+            <Route path="ngo" element={<NgoSingupComponent role={'ngo'} />} /> */}
+          </Route>
             <Route path="/donate" element={<CTAPage />} />
             <Route path="/*" element={<AppContent />} />
           </Routes>
