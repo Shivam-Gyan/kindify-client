@@ -53,7 +53,7 @@ const NgoSingupComponent = ({ role }) => {
         accountNumber: "",
         upiId: "",
         razorpayPaymentLink: "",
-        preferredMethod: "upi"
+        preferredMethod: "upi",
 
     });
 
@@ -62,7 +62,22 @@ const NgoSingupComponent = ({ role }) => {
     const [registrationNumber, setRegistrationNumber] = useState("");
     const [isValid, setIsValid] = useState(true);
 
+    const [postalCode, setPostalCode] = useState("");
 
+    const handlePostalCodeChange = (e) => {
+        const value = e.target.value;
+        setPostalCode(value);
+        // Clear error initially
+        setError("");
+        // Basic format validation (assuming postal code is numeric)
+        if (!/^[1-9][0-9]{5}$/.test(value)) {
+            setIsValid(true);
+            setError("Enter a valid postal code (6 digits)");
+            return;
+        }
+        setIsValid(false)
+        // If valid, you can set isValid to true or perform further actions
+    };
 
     const handleIfscCodeChange = async (e) => {
         const value = e.target.value.toUpperCase();
@@ -161,7 +176,7 @@ const NgoSingupComponent = ({ role }) => {
                 loading: 'Uploading image...',
                 success: (response) => {
                     if (response.success) {
-                        setPersonalInfoUpdate({ ...personalInfoUpdate, previewImage: response.image_url, imageUrl: response.image_url }); // Assuming the response contains the image URL
+                        setNgoDetails({ ...ngoDetails, logo: response.image_url, logoPreview: response.image_url });
                         setImageFile(null); // Clear the file input after successful upload
                         return "Image uploaded successfully.";
                     } else {
@@ -218,6 +233,7 @@ const NgoSingupComponent = ({ role }) => {
                             if (response.success) {
                                 setCurrentStep(1);
                                 setError("");
+                                setIsValid(true);
                                 return "Account created successfully!";
                             } else {
                                 throw new Error(response.message || "Failed to create account");
@@ -252,6 +268,9 @@ const NgoSingupComponent = ({ role }) => {
                             if (response.success) {
                                 console.log("Profile updated successfully:", response);
                                 setCurrentStep((prev) => prev + 1);
+                                setError("");
+                                setIsValid(true);
+                                setRegistrationNumber("");
                                 return "Profile updated successfully!";
                             } else {
                                 throw new Error(response.message || "Failed to update profile");
@@ -289,6 +308,7 @@ const NgoSingupComponent = ({ role }) => {
                             if (response.success) {
                                 console.log("Account details added successfully:", response);
                                 setCurrentStep((prev) => prev + 1);
+                                setError("");
                                 return "Account details added successfully!";
                             } else {
                                 throw new Error(response.message || "Failed to add account details");
@@ -303,7 +323,75 @@ const NgoSingupComponent = ({ role }) => {
                 );
                 break;
             case 4:
-                toast.success("Quick setup completed successfully!");
+                if(!ngoDetails.logo || !postalCode) {
+                    toast.error("Please fill in all fields");
+                    setError("Please fill in all fields");
+                    break;
+                }
+                await toast.promise(
+                    ngoDatabaseServices.addAddressAndLogo({
+                        officialContactEmail: ngoDetails.officialEmail,
+                        role: role,
+                        logo: ngoDetails.logo,
+                        postalCode: postalCode,
+                    }),
+                    {
+                        loading: 'Finalizing setup...',
+                        success: (response) => {
+                            if (response.success) {
+                                console.log("NGO details added successfully:", response);
+                                toast.success("redirecting to dashboard...");
+                                setError("");
+
+                                setTimeout(() => {
+                                    navigate('/');
+                                }, 2000); // Redirect after 2 seconds
+                                setCurrentStep(0); // Reset to initial step
+                                setFormData({
+                                    name: "",
+                                    email: "",
+                                    password: "",   
+                                    nationality: {
+                                        name: "",
+                                        code: "",
+                                    }
+                                });
+                                setNgoDetails({
+                                    officialPhone: "",
+                                    officialEmail: "",  
+                                    logoPreview: "",
+                                    logo: "",
+                                    bankName: "",
+                                    accountHolderName: "",
+                                    accountNumber: "",
+                                    upiId: "",
+                                    razorpayPaymentLink: "",
+                                    preferredMethod: "upi",
+                                });
+                                setIfscCode("");
+                                setRegistrationNumber("");
+                                setPostalCode("");
+                                setImageFile(null);
+                                setQuery("");
+                                setFiltered([]);
+
+                                setIsValid(true);
+                                // Reset any other state variables if needed
+
+                                // Optionally, you can reset any other state variables if needed
+
+                                return "Setup completed successfully!";
+                            } else {
+                                throw new Error(response.message || "Failed to finalize setup");
+                            }
+                        },
+                        error: (error) => {
+                            console.error("Error finalizing setup:", error);
+                            setError(error.message || "An error occurred while finalizing the setup.");
+                            return "An error occurred while finalizing the setup.";
+                        }
+                    }
+                );
                 break;
             default:
                 toast.error("Invalid step");
@@ -554,7 +642,7 @@ const NgoSingupComponent = ({ role }) => {
                 <div>
                     {error && <p className='py-2 px-3 my-3 truncate leading-7 bg-red-100 border-l-2 border-red-400 w-full'>{error}</p>}
                     <p className="text-sm text-gray-500">
-                        <strong>Profile image</strong> and <strong>phone number</strong> are optional.
+                        <strong>Oragnization Logo</strong> and <strong>State</strong> are optional.
                         You can skip them now or update them later from your <strong>account settings</strong>.
                     </p>
                     <div className="flex max-md:flex-col max-md:items-center gap-5 mt-6 justify-between items-start">
@@ -564,20 +652,20 @@ const NgoSingupComponent = ({ role }) => {
 
                             <InputComponent
                                 type="text"
-                                name="imageUrl"
+                                name="logo"
                                 value={ngoDetails.logo}
                                 onChange={handleNgoDetailUpdate}
-                                label="Profile Picture URL"
-                                required={false}
+                                label="Orangaization logo URL"
+                                required={true}
 
                             />
                             <InputComponent
-                                name="phone"
+                                name="postalCode"
                                 type="tel"
-                                label="Phone Number"
-                                value={ngoDetails.officialPhone}
-                                onChange={handleNgoDetailUpdate}
-                                required={false}
+                                label="Pin code of area"
+                                value={postalCode}
+                                onChange={handlePostalCodeChange}
+                                required={true}
                             />
                         </div>
 
