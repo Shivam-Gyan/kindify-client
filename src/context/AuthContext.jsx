@@ -8,11 +8,19 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const user = authService.getCurrentUser();
-        if (user) {
-            setUser(user);
+    async function getUserProfile() {
+        await authService.getUserProfile().then((data) => {
+            setUser(data);
         }
+        ).catch((err) => {
+            console.error('Error fetching user profile:', err);
+            setError(err.message);
+        });
+    }
+
+    useEffect(() => {
+        getUserProfile()
+
         setLoading(false);
     }, []);
 

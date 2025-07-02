@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import authService from '../../services/auth.service';
 import { toast } from 'react-hot-toast';
+import { input } from 'framer-motion/client';
 
-const OtpComponent = ({ count, onOTPComplete, role, emailVerfied, otp, setOtp, setCurrentStep }) => {
+const OtpComponent = ({ count, role,setForgotPassword, ispassword = false, emailVerfied, classname, setCurrentStep, value, handleChange }) => {
 
     const [otps, setOtps] = useState([])
     const [error, setError] = useState("");
     // const [masking, setMasking] = useState(new Array(count).fill(""))
     const inputRefs = useRef([])
+
+    const [password, setPassword] = useState("");
 
     const [resendTimer, setResendTimer] = useState(30);
     const [isTimerRunning, setIsTimerRunning] = useState(true);
@@ -116,20 +119,53 @@ const OtpComponent = ({ count, onOTPComplete, role, emailVerfied, otp, setOtp, s
 
         if (otpToSend.length == count) {
 
-            await toast.promise(
-                authService.verifyOtp({ email: emailVerfied, otp: otpToSend, role }),
-                {
-                    pending: 'Verifying OTP...',
-                    success: 'OTP verified!',
-                    error: 'OTP verification failed'
-                }
-            ).then(() => {
-                setCurrentStep(2);
-            }).catch(error => {
-                console.error("OTP verification error:", error);
-                toast.error(error.message || "Failed to verify OTP");
-                setError(error.message || "Failed to verify OTP");
-            })
+            switch (ispassword) {
+                case true:
+                    if(!password || !emailVerfied || !role || !otpToSend) {
+                        toast.error("Please fill all the fields");
+                        break;
+                    }
+
+                    await toast.promise(
+                        authService.resetPassword(emailVerfied, otpToSend, password, role),
+                        {
+                            pending: 'Resetting password...',
+                            success: (response) => {
+                                if (response.success) {
+                                    setForgotPassword(false);
+                                    return 'Password reset successfully!';
+                                } else {
+                                    toast.error(response.message);
+                                }
+                            },
+                            error: (error) => {
+                                return `${error.message}`;
+                            }
+                        }
+                    )
+                    break;
+
+                case false:
+                    await toast.promise(
+                        authService.verifyOtp({ email: emailVerfied, otp: otpToSend, role }),
+                        {
+                            pending: 'Verifying OTP...',
+                            success: 'OTP verified!',
+                            error: 'OTP verification failed'
+                        }
+                    ).then(() => {
+                        setCurrentStep(2);
+                    }).catch(error => {
+                        console.error("OTP verification error:", error);
+                        toast.error(error.message || "Failed to verify OTP");
+                        setError(error.message || "Failed to verify OTP");
+                    })
+                    break;
+                default:
+                    console.error("something went wrong in otp component");
+                    break;
+
+            }
         } else {
             toast.error("Please fill the OTP");
             setError("Please fill the OTP");
@@ -172,18 +208,22 @@ const OtpComponent = ({ count, onOTPComplete, role, emailVerfied, otp, setOtp, s
 
     return (
         <>{error && <p className='py-2 px-3 my-3 truncate leading-7 bg-red-100 border-l-2 border-red-400 w-full'>{error}</p>}
-            <div className='flex max-md:flex-col max-md:items-center w-full justify-center items-start gap-4 py-3 '>
-                <div className='flex max-md:w-full max-md:items-center items-start  flex-col gap-3'>
+            <div className={`flex ${classname ? classname : " max-md:flex-col max-md:items-center w-full justify-center items-center "}  gap-4 py-3`}>
+                <div className={`flex max-md:w-full max-md:items-centeritems-start  flex-col gap-3`}>
                     <h1 className='text-xl text-slate-700 font-semibold tracking-wide'>Verification Code</h1>
-                    <p className='max-md:w-64 w-56 text-sm max-md:text-center font-normal text-slate-600'>we have sent a verification code to your email address. Please enter the code below</p>
+                    <p className={`max-md:w-80 ${classname ? " w-72 ":" w-56 "} text-sm max-md:text-center font-normal text-slate-600`}>we have sent a verification code to your email address. Please enter the code below</p>
 
                 </div>
 
 
-                <div className='flex max-md:w-full w-1/2 min-w-64 gap-5 flex-col items-center justify-center'>
-                    <div className='px-4 min-w-64 py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500'>
+                <div className={`flex max-md:w-full ${classname?" w-[500px] ":" w-1/2 "} min-w-64 gap-5 flex-col items-center justify-center`}>
+                    <div className={`px-4 ${classname?" min-w-72 ":" min-w-64 "} py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500`}>
                         <span>{emailVerfied || "example@gamil.com"}</span>
                         <i className='fi fi-rr-envelope text-lg text-slate-500'></i>
+                    </div>
+                    <div className={`px-4 ${classname?" min-w-72 ":" min-w-64 "} py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500`}>
+                        {ispassword && <input placeholder='enter new password' value={password} onChange={(e)=>setPassword(e.target.value)} name={"password"} type={"text"} className='outline-none' />}
+                        <i className='fi fi-rr-lock text-lg text-slate-500'></i>
                     </div>
                     <div className='relative flex justify-start items-center gap-1'>
                         {

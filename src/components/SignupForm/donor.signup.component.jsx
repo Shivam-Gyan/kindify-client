@@ -128,7 +128,7 @@ const DonorSignupComponent = ({ role }) => {
                         success: (response) => {
                             if (response.success) {
                                 setCurrentStep((prev) => prev + 1);
-                                console.log(formData);
+                                setError("");
                                 return "Account created successfully!";
                             } else {
                                 throw new Error(response.message || "Failed to create account");
@@ -168,7 +168,8 @@ const DonorSignupComponent = ({ role }) => {
                         success: (response) => {
                             if (response.success) {
                                 console.log("Profile updated successfully:", response);
-                                navigate('/login');
+                                setError("");
+                                navigate(`/login/${role}`);
                                 return "Profile updated successfully!";
                             } else {
                                 throw new Error(response.message || "Failed to update profile");
@@ -260,9 +261,9 @@ const DonorSignupComponent = ({ role }) => {
                                 onChange={(e) => setQuery(e.target.value)}
                                 required
                                 placeholder=" "
-                                className="peer w-full h-full border-2 border-gray-300 bg-transparent shadow-[inset_0_0_0_1000px_white] text-gray-700 px-6 py-1 rounded-lg text-md outline-none transition-all duration-100 valid:ring-2 valid:border-0 focus:ring-2 focus:border-0 focus:ring-blue-600 valid:ring-blue-600"
+                                className="peer w-full h-full border-2 border-gray-300 bg-transparent shadow-[inset_0_0_0_1000px_white] text-gray-700 px-6 py-1 rounded-lg text-[15px] outline-none transition-all duration-100 valid:ring-2 valid:border-0 focus:ring-2 focus:border-0 focus:ring-blue-600 valid:ring-blue-600"
                             />
-                            <label htmlFor="nationality" className="absolute left-6 top-0 text-gray-500 text-lg bg-white px-2 transition-all duration-200 transform scale-100 translate-y-2 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:scale-100 peer-focus:scale-90 peer-valid:scale-90 peer-focus:-translate-y-4 peer-valid:-translate-y-4 peer-focus:-translate-x-4 peer-valid:-translate-x-4 peer-focus:text-gray-500 peer-focus:font-normal peer-focus:text-[15px] peer-valid:font-normal peer-valid:text-[15px] pointer-events-none z-30">Nationality</label>
+                            <label htmlFor="nationality" className="absolute left-6 -top-1 text-gray-500 text-[15px] bg-white px-2 transition-all duration-200 transform scale-100 translate-y-2 peer-placeholder-shown:translate-y-2 peer-placeholder-shown:scale-100 peer-focus:scale-90 peer-valid:scale-90 peer-focus:-translate-y-4 peer-valid:-translate-y-4 peer-focus:-translate-x-4 peer-valid:-translate-x-4 peer-focus:text-gray-500 peer-focus:font-normal peer-focus:text-[15px] peer-valid:font-normal peer-valid:text-[15px] pointer-events-none z-30">Nationality</label>
                             {filtered.length > 0 && (
                                 <ul className="absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-md max-h-48 overflow-y-auto shadow-md">
                                     {filtered.map((country) => (
