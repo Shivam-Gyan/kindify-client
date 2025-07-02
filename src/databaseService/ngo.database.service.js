@@ -47,6 +47,16 @@ const ngoDatabaseServices = {
             console.error("Error adding NGO account details:", error);
             throw error;
         }
+    },
+    addAddressAndLogo : async( addessAndLogoData)=>{
+        try {
+            const response = await api.post(`${API_URL}/ngo/add-address-and-logo`, addessAndLogoData);
+            return response.data;
+        } catch (error) {
+            console.error("Error adding NGO address and logo:", error);
+            throw error;
+        }
+
     }
 }
 
