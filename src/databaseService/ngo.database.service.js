@@ -5,8 +5,8 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_URI || "http://localhost:3000/api";
 
-const token = JSON.parse(localStorage.getItem('token'));
-
+const rawToken = localStorage.getItem('token');
+const token = rawToken ? JSON.parse(rawToken) : null;
 
 const api = axios.create({
     baseURL: API_URL,

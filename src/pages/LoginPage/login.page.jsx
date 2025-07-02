@@ -7,15 +7,18 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useParams } from "react-router-dom";
 import NgoSingupComponent from "../../components/SignupForm/ngo.signup.component";
 import { AnimationWrapper } from "../../common";
+import LoginComponent from "../../components/LoginForm/donor.component";
 
 
 
-export default function SignupForm() {
+export default function LoginPageForm() {
 
     const { role: roleParam } = useParams();
     console.log("Role Param:", roleParam);
 
     const [role, setRole] = useState(roleParam || "")
+
+
 
     useEffect(() => {
         const handleBeforeUnload = (e) => {
@@ -52,10 +55,10 @@ export default function SignupForm() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="flex w-full max-w-5xl rounded-2xl z-40 shadow-lg"
+                    className="flex w-full max-w-3xl rounded-2xl z-40 shadow-lg"
                 >
                     {/* Sidebar */}
-                    <div className="w-1/3 bg-indigo-600  p-8 rounded-l-2xl text-white max-md:hidden">
+                    <div className="w-80 bg-indigo-600  p-8 rounded-l-2xl text-white max-md:hidden">
                         <img src="https://res.cloudinary.com/dglwzejwk/image/upload/v1751289094/kindify-logo_white_mqbmgz.png" alt="" className="h-14" />
                         <div className="mt-20">
                             <h2 className="text-2xl font-semibold mb-2">Already a member ?</h2>
@@ -110,9 +113,8 @@ export default function SignupForm() {
                             )
                         }
 
-                        {/* <Outlet/> */}
-                        {role === "donor" && <AnimationWrapper><DonorSignupComponent role={role} /></AnimationWrapper>}
-                        {role === "ngo" && <AnimationWrapper><NgoSingupComponent role={role} /></AnimationWrapper>}
+                        {role === "donor" && <AnimationWrapper><LoginComponent role={role} /></AnimationWrapper>}
+                        {role === "ngo" && <AnimationWrapper><LoginComponent role={role} /></AnimationWrapper>}
 
 
                     </div>
