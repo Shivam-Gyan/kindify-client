@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import authService from '../services/auth.service';
 
 const AuthContext = createContext(null);
@@ -8,21 +8,26 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    async function getUserProfile() {
-        await authService.getUserProfile().then((data) => {
-            setUser(data);
-        }
-        ).catch((err) => {
-            console.error('Error fetching user profile:', err);
-            setError(err.message);
-        });
-    }
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         try {
+    //             const token = localStorage.getItem("token");
+    //             if (!token) {
+    //                 setLoading(false);
+    //                 return;
+    //             }
+    //             const data = await authService.getUserProfile();
+    //             setUser(data);
+    //         }catch (err) {
+    //             console.error("Error fetching user profile:", err);
+    //             setError(err.message);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
 
-    useEffect(() => {
-        getUserProfile()
-
-        setLoading(false);
-    }, []);
+    //     fetchUser();
+    // }, []);
 
     const login = async (credentials, role) => {
         try {
@@ -60,7 +65,7 @@ export const AuthProvider = ({ children }) => {
         login,
         googleAuth,
         logout,
-        isAuthenticated: !!user
+        isAuthenticated:user?true:false
     };
 
     return (
