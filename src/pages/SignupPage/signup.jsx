@@ -13,7 +13,6 @@ import { AnimationWrapper } from "../../common";
 export default function SignupForm() {
 
     const { role: roleParam } = useParams();
-    console.log("Role Param:", roleParam);
 
     const [role, setRole] = useState(roleParam || "")
 
@@ -56,15 +55,15 @@ export default function SignupForm() {
                 >
                     {/* Sidebar */}
                     <div className="w-1/3 bg-indigo-600  p-8 rounded-l-2xl text-white max-md:hidden">
-                        <img src="https://res.cloudinary.com/dglwzejwk/image/upload/v1751289094/kindify-logo_white_mqbmgz.png" alt="" className="h-14" />
-                        <div className="mt-20">
-                            <h2 className="text-2xl font-semibold mb-2">Already a member ?</h2>
+                        <img src="https://res.cloudinary.com/dglwzejwk/image/upload/v1751289094/kindify-logo_white_mqbmgz.png" alt="" className="h-14 -ml-4" />
+                        <div className="mt-12">
+                            <h2 className="text-2xl font-semibold mb-2">Already a <span className="text-red-400 capitalize">{role?role:"account"}</span> ?</h2>
                             <p className="mb-6 text-sm">
                                 To keep track on your dashboard please login with your personal info
                             </p>
-                            <button className="rounded-full border border-white px-6 py-2 text-white hover:bg-white hover:text-indigo-600">
+                            <Link to={`${role?`/login/${role}`:"/login"}`} className="rounded-full border border-white px-6 py-2 text-white hover:bg-white hover:text-indigo-600">
                                 Login
-                            </button>
+                            </Link>
                         </div>
                     </div>
 

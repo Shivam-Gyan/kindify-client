@@ -14,7 +14,6 @@ import LoginComponent from "../../components/LoginForm/donor.component";
 export default function LoginPageForm() {
 
     const { role: roleParam } = useParams();
-    console.log("Role Param:", roleParam);
 
     const [role, setRole] = useState(roleParam || "")
 
@@ -59,15 +58,15 @@ export default function LoginPageForm() {
                 >
                     {/* Sidebar */}
                     <div className="w-80 bg-indigo-600  p-8 rounded-l-2xl text-white max-md:hidden">
-                        <img src="https://res.cloudinary.com/dglwzejwk/image/upload/v1751289094/kindify-logo_white_mqbmgz.png" alt="" className="h-14" />
-                        <div className="mt-20">
-                            <h2 className="text-2xl font-semibold mb-2">Already a member ?</h2>
+                        <img src="https://res.cloudinary.com/dglwzejwk/image/upload/v1751289094/kindify-logo_white_mqbmgz.png" alt="" className="h-14 -ml-4" />
+                        <div className="mt-8">
+                            <h2 className="text-2xl font-semibold mb-2"><span className="text-red-400 capitalize">{role?`${role}!`:""}</span> new here?</h2>
                             <p className="mb-6 text-sm">
-                                To keep track on your dashboard please login with your personal info
+                                Create an account to access your dashboard and explore all features.
                             </p>
-                            <button className="rounded-full border border-white px-6 py-2 text-white hover:bg-white hover:text-indigo-600">
-                                Login
-                            </button>
+                            <Link to={`/signup${role?`/${role}`:""}`} className="rounded-full border border-white px-6 py-2 text-white hover:bg-white hover:text-indigo-600">
+                                Sign up
+                            </Link>
                         </div>
                     </div>
 

@@ -47,17 +47,43 @@ const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // You'll need to replace this
 import SignupForm from './pages/SignupPage/signup.jsx';
 import NgoSingupComponent from './components/SignupForm/ngo.signup.component';
 import LoginPageForm from './pages/LoginPage/login.page.jsx';
+import authService from './services/auth.service.js';
+import { useState, useEffect } from 'react';
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
-  console.log("ProtectedRoute isAuthenticated:", isAuthenticated);
+  // const { isAuthenticated, loading } = useAuth();
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
+   useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                // const token = localStorage.getItem("token");
+                // if (!token) {
+                //     setLoading(false);
+                //     return;
+                // }
+                const data = await authService.getUserProfile();
+                setUser(data);
+            }catch (err) {
+                console.error("Error fetching user profile:", err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/login" />;
   }
 
@@ -69,7 +95,7 @@ function AppContent() {
     <Routes>
 
       {/* <Route path="/login" element={<Login />} /> */}
-      <Route path="/ngo-registration" element={<Index />} />
+      {/* <Route path="/ngo-registration" element={<Index />} /> */}
 
 
       {/* donor dashboard routing */}
@@ -148,20 +174,17 @@ function App() {
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <Router>
         <Toaster />
-        {/* <AuthProvider> */}
+        <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup/" element={<SignupForm />} />
           <Route path="/signup/:role" element={<SignupForm />} />
-          {/* <Route path="donor" element={<DonorSignupComponent role={'donor'} />} />
-            <Route path="ngo" element={<NgoSingupComponent role={'ngo'} />} /> */}
-
           <Route path="/login" element={<LoginPageForm />} />
           <Route path="/login/:role" element={<LoginPageForm />} />
           <Route path="/donate" element={<CTAPage />} />
           <Route path="/*" element={<AppContent />} />
         </Routes>
-        {/* </AuthProvider> */}
+        </AuthProvider>
       </Router>
     </GoogleOAuthProvider>
   );

@@ -3,7 +3,7 @@ import authService from '../../services/auth.service';
 import { toast } from 'react-hot-toast';
 import { input } from 'framer-motion/client';
 
-const OtpComponent = ({ count, role,setForgotPassword, ispassword = false, emailVerfied, classname, setCurrentStep, value, handleChange }) => {
+const OtpComponent = ({ count, role, setForgotPassword, ispassword = false, emailVerfied, classname, setCurrentStep, value, handleChange }) => {
 
     const [otps, setOtps] = useState([])
     const [error, setError] = useState("");
@@ -121,7 +121,7 @@ const OtpComponent = ({ count, role,setForgotPassword, ispassword = false, email
 
             switch (ispassword) {
                 case true:
-                    if(!password || !emailVerfied || !role || !otpToSend) {
+                    if (!password || !emailVerfied || !role || !otpToSend) {
                         toast.error("Please fill all the fields");
                         break;
                     }
@@ -211,20 +211,22 @@ const OtpComponent = ({ count, role,setForgotPassword, ispassword = false, email
             <div className={`flex ${classname ? classname : " max-md:flex-col max-md:items-center w-full justify-center items-center "}  gap-4 py-3`}>
                 <div className={`flex max-md:w-full max-md:items-centeritems-start  flex-col gap-3`}>
                     <h1 className='text-xl text-slate-700 font-semibold tracking-wide'>Verification Code</h1>
-                    <p className={`max-md:w-80 ${classname ? " w-72 ":" w-56 "} text-sm max-md:text-center font-normal text-slate-600`}>we have sent a verification code to your email address. Please enter the code below</p>
+                    <p className={`max-md:w-80 ${classname ? " w-72 " : " w-56 "} text-sm max-md:text-center font-normal text-slate-600`}>we have sent a verification code to your email address. Please enter the code below</p>
 
                 </div>
 
 
-                <div className={`flex max-md:w-full ${classname?" w-[500px] ":" w-1/2 "} min-w-64 gap-5 flex-col items-center justify-center`}>
-                    <div className={`px-4 ${classname?" min-w-72 ":" min-w-64 "} py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500`}>
+                <div className={`flex max-md:w-full ${classname ? " w-[500px] " : " w-1/2 "} min-w-64 gap-5 flex-col items-center justify-center`}>
+                    <div className={`px-4 ${classname ? " min-w-72 " : " min-w-64 "} py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500`}>
                         <span>{emailVerfied || "example@gamil.com"}</span>
                         <i className='fi fi-rr-envelope text-lg text-slate-500'></i>
                     </div>
-                    <div className={`px-4 ${classname?" min-w-72 ":" min-w-64 "} py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500`}>
-                        {ispassword && <input placeholder='enter new password' value={password} onChange={(e)=>setPassword(e.target.value)} name={"password"} type={"text"} className='outline-none' />}
-                        <i className='fi fi-rr-lock text-lg text-slate-500'></i>
-                    </div>
+                    {ispassword && (
+                        <div className={`px-4 ${classname ? " min-w-72 " : " min-w-64 "} py-2 border-[1px] flex justify-between items-center border-slate-300 rounded-lg text-sm font-mdeium text-slate-500`}>
+                            {<input placeholder='enter new password' value={password} onChange={(e) => setPassword(e.target.value)} name={"password"} type={"text"} className='outline-none' />}
+                            <i className='fi fi-rr-lock text-lg text-slate-500'></i>
+                        </div>
+                    )}
                     <div className='relative flex justify-start items-center gap-1'>
                         {
                             new Array(count).fill("").map((_, index) => (
