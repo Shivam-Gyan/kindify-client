@@ -2,12 +2,11 @@
 // Updated MultiStepForm.jsx
 
 import { motion } from "framer-motion";
-import { DonorSignupComponent, Footer } from "../../components";
+import { Footer } from "../../components";
 import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useParams } from "react-router-dom";
-import NgoSingupComponent from "../../components/SignupForm/ngo.signup.component";
 import { AnimationWrapper } from "../../common";
-import LoginComponent from "../../components/LoginForm/donor.component";
+import LoginComponent from "../../components/LoginForm/Login.component";
 
 
 
