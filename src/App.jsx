@@ -1,6 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import VerifyEmail from './pages/VerifyEmail';
@@ -15,9 +20,9 @@ import {
   DonorFollowedNGOs,
   DonorNotifications,
   DonorSettingsContent,
-  DonorSignupComponent, LogoutComponent,
+  DonorSignupComponent,
+  LogoutComponent,
   NGOSettingsContent,
-  // Admin Components
   AdminDashboardContent,
   AdminNGOModeration,
   AdminUsers,
@@ -41,64 +46,17 @@ import {
 } from './components';
 import DonorHome from './pages/Home/DonorHome';
 import NGOHome from './pages/Home/NGOHome';
-
-// Google OAuth Client ID - Replace with your actual Google OAuth Client ID
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // You'll need to replace this with your actual Google OAuth Client ID
 import SignupForm from './pages/SignupPage/signup.jsx';
 import NgoSingupComponent from './components/SignupForm/ngo.signup.component';
 import LoginPageForm from './pages/LoginPage/login.page.jsx';
-import authService from './services/auth.service.js';
-import { useState, useEffect } from 'react';
+import ProtectedRoute from './components/ProtectedRoute'; // Assuming you saved it there
 
-// Protected Route component
-const ProtectedRoute = ({ children }) => {
-  // const { isAuthenticated, loading } = useAuth();
-
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-
-   useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                // const token = localStorage.getItem("token");
-                // if (!token) {
-                //     setLoading(false);
-                //     return;
-                // }
-                const data = await authService.getUserProfile();
-                setUser(data);
-            }catch (err) {
-                console.error("Error fetching user profile:", err);
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
-};
+const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
 
 function AppContent() {
   return (
     <Routes>
-
-      {/* <Route path="/login" element={<Login />} /> */}
-      {/* <Route path="/ngo-registration" element={<Index />} /> */}
-
-
-      {/* donor dashboard routing */}
+      {/* Donor Dashboard */}
       <Route path="/donor-dashboard" element={<DonorDashboard />} >
         <Route path='setting' element={<DonorSettingsContent />} />
         <Route path='dashboard' element={<DonorDashboardContent />} />
@@ -110,7 +68,7 @@ function AppContent() {
         <Route path='logout' element={<LogoutComponent />} />
       </Route>
 
-      {/* NGO dashboard routing */}
+      {/* NGO Dashboard */}
       <Route path="/ngo-dashboard" element={<NGODashboard />} >
         <Route path='dashboard' element={<NGODashboardContent />} />
         <Route path='campaigns' element={<CampaignsNGO />} />
@@ -124,7 +82,7 @@ function AppContent() {
         <Route path='logout' element={<LogoutComponent />} />
       </Route>
 
-      {/* Admin dashboard routing */}
+      {/* Admin Dashboard */}
       <Route path="/admin-dashboard" element={<AdminDashboard />} >
         <Route path='dashboard' element={<AdminDashboardContent />} />
         <Route path='ngo-moderation' element={<AdminNGOModeration />} />
@@ -136,6 +94,8 @@ function AppContent() {
       </Route>
 
       <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/donor-home" element={<ProtectedRoute><DonorHome /></ProtectedRoute>} />
+      <Route path="/ngo-home" element={<ProtectedRoute><NGOHome /></ProtectedRoute>} />
       <Route
         path="/*"
         element={
@@ -159,22 +119,16 @@ function AppContent() {
           </ProtectedRoute>
         }
       />
-      <Route path="/donor-home" element={<ProtectedRoute><DonorHome /></ProtectedRoute>} />
-      <Route path="/ngo-home" element={<ProtectedRoute><NGOHome /></ProtectedRoute>} />
     </Routes>
   );
 }
 
 function App() {
-
-  const { user } = useAuth();
-
-  console.log("User in App:", user);
   return (
+  
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <Router>
         <Toaster />
-        <AuthProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup/" element={<SignupForm />} />
@@ -184,7 +138,6 @@ function App() {
           <Route path="/donate" element={<CTAPage />} />
           <Route path="/*" element={<AppContent />} />
         </Routes>
-        </AuthProvider>
       </Router>
     </GoogleOAuthProvider>
   );

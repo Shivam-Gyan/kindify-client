@@ -12,7 +12,7 @@ const api = axios.create({
     baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` 
+        'Authorization': `Bearer ${token}`
     }
 });
 
@@ -30,7 +30,7 @@ const ngoDatabaseServices = {
     },
     registerNgo: async (ngoData) => {
         try {
-            
+
             const response = await api.post(`${API_URL}/ngo/register-ngo`, ngoData);
             return response.data;
         } catch (error) {
@@ -39,7 +39,7 @@ const ngoDatabaseServices = {
         }
     },
 
-    addAccountDetails:async(accountDetails)=>{
+    addAccountDetails: async (accountDetails) => {
         try {
             const response = await api.post(`${API_URL}/ngo/add-account-details`, accountDetails);
             return response.data;
@@ -48,7 +48,7 @@ const ngoDatabaseServices = {
             throw error;
         }
     },
-    addAddressAndLogo : async( addessAndLogoData)=>{
+    addAddressAndLogo: async (addessAndLogoData) => {
         try {
             const response = await api.post(`${API_URL}/ngo/add-address-and-logo`, addessAndLogoData);
             return response.data;
@@ -57,6 +57,21 @@ const ngoDatabaseServices = {
             throw error;
         }
 
+    },
+
+    filterNgo: async (params) => {
+        try {
+
+            const response = await axios.get(`http://localhost:3000/api/ngo/filter-ngos`, {
+                params,
+                headers: token ? { Authorization: `Bearer ${token}` } : {},
+                withCredentials: true // If your API requires credentials
+            });
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

@@ -150,3 +150,21 @@ export const adminDashboardData = {
         }
     ]
 }
+
+
+export const NgoCategories = [
+  "environment",
+  "education",
+  "children",
+  "health",
+  "animals",
+  "shelter",
+  "community",
+  "livelihood",
+  "research",
+  "culture",
+  "arts",
+  "rural development",
+  "technology",
+  "elderly"
+]

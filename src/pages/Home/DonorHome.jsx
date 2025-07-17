@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Footer from '../../components/LandingPage/Footer';
+import FilterNgo from '../../components/FilterNgo';
 
 const DonorHome = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user ,NgoByFilter, error } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   const [searchType, setSearchType] = useState('all'); // 'all', 'campaigns', 'ngos'
   
   // Mock data - in real app, this would come from API
@@ -428,11 +430,11 @@ const DonorHome = () => {
 
         {/* Search Section */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <div className="mb-4">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Search Campaigns & NGOs</h2>
+          <div className="mb-4 flex max-sm:flex-col items-center max-sm:gap-3 gap-8">
             
             {/* Search Input */}
-            <div className="relative mb-4">
+            <div className="relative mb-4 w-full">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -456,41 +458,14 @@ const DonorHome = () => {
                 </button>
               )}
             </div>
-
-            {/* Search Type Filters */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              <button
-                onClick={() => setSearchType('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  searchType === 'all'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setSearchType('campaigns')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  searchType === 'campaigns'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Campaigns
-              </button>
-              <button
-                onClick={() => setSearchType('ngos')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  searchType === 'ngos'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                NGOs
-              </button>
-            </div>
+            <button className=' max-sm:w-full max-md:w-40 w-36 h-12 -mt-4 px-4 py-1 rounded-md border-2 border-indigo-500 hover:bg-indigo-50 bg-white text-indigo-600 ' onClick={() => setShowFilter(!showFilter)}>
+              {showFilter ? "Hide Filter" : "Show Filter"}
+            </button>
           </div>
+
+         {error && <p className='bg-red-100 text-red-700 p-4 rounded-md truncate border-l-4 border-red-500'>{error}</p>} 
+
+          {showFilter && <FilterNgo setShowFilter={setShowFilter}/>}
 
           {/* Search Results */}
           {isSearching && searchQuery && (
