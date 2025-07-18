@@ -64,7 +64,6 @@ const ngoDatabaseServices = {
 
             const response = await axios.get(`http://localhost:3000/api/ngo/filter-ngos`, {
                 params,
-                headers: token ? { Authorization: `Bearer ${token}` } : {},
                 withCredentials: true // If your API requires credentials
             });
 

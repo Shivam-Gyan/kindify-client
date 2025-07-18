@@ -4,21 +4,26 @@
 import { motion } from "framer-motion";
 import { Footer } from "../../components";
 import { useEffect, useState } from "react";
-import { Link, Navigate, Outlet, useParams } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
 import { AnimationWrapper } from "../../common";
 import LoginComponent from "../../components/LoginForm/Login.component";
+import { useAuth } from "../../context/AuthContext";
 
 
 
 export default function LoginPageForm() {
 
     const { role: roleParam } = useParams();
-
+    const {user} = useAuth();
+    const navigate = useNavigate();
     const [role, setRole] = useState(roleParam || "")
 
 
 
     useEffect(() => {
+        if (user) {
+            navigate(`/${user?.user?.role}-home`);
+        }
         const handleBeforeUnload = (e) => {
             e.preventDefault();
             e.returnValue = 'Are you sure you want to reload / refresh '; // Required for Chrome
@@ -29,7 +34,7 @@ export default function LoginPageForm() {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, []);
+    }, [user]);
 
     return (
         <>

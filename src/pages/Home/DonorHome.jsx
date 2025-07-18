@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Footer from '../../components/LandingPage/Footer';
 import FilterNgo from '../../components/FilterNgo';
+import NgoDetailCard from '../../components/NgoDetailsCard';
+import NgoShortCard from '../../components/NgoCardShort';
+import { u } from 'framer-motion/client';
+import FilteredNgoDisplay from '../../components/FilteredNgoDisplay';
+import SearchResultsSlider from '../../components/SearchResultSlider';
 
 const DonorHome = () => {
   const navigate = useNavigate();
-  const { user ,NgoByFilter, error } = useAuth();
+  const { user, NgoByFilter, error, ngos } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [searchType, setSearchType] = useState('all'); // 'all', 'campaigns', 'ngos'
-  
+
   // Mock data - in real app, this would come from API
   const featuredNGOs = [
     {
@@ -340,7 +345,7 @@ const DonorHome = () => {
   // Search function
   const handleSearch = (query) => {
     setSearchQuery(query);
-    
+
     if (!query.trim()) {
       setSearchResults([]);
       setIsSearching(false);
@@ -384,6 +389,11 @@ const DonorHome = () => {
     setSearchResults([]);
     setIsSearching(false);
   };
+
+  // useEffect(() => {
+  //   // Fetch NGOs on component mount
+  //   ngos();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -430,9 +440,9 @@ const DonorHome = () => {
 
         {/* Search Section */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Search Campaigns & NGOs</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Search Campaigns & NGOs</h2>
           <div className="mb-4 flex max-sm:flex-col items-center max-sm:gap-3 gap-8">
-            
+
             {/* Search Input */}
             <div className="relative mb-4 w-full">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -463,13 +473,15 @@ const DonorHome = () => {
             </button>
           </div>
 
-         {error && <p className='bg-red-100 text-red-700 p-4 rounded-md truncate border-l-4 border-red-500'>{error}</p>} 
+          {error && <p className='bg-red-100 text-red-700 p-4 rounded-md truncate border-l-4 border-red-500'>{error}</p>}
 
-          {showFilter && <FilterNgo setShowFilter={setShowFilter}/>}
+          {showFilter && <FilterNgo setShowFilter={setShowFilter} />}
+          
+          
 
           {/* Search Results */}
           {isSearching && searchQuery && (
-            <div className="border-t border-gray-200 pt-4">
+            <div className="">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">
                   Search Results ({searchResults.length})
@@ -495,124 +507,127 @@ const DonorHome = () => {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {searchResults.map((result, index) => (
-                    <div key={`${result.type}-${result.id}-${index}`} className="bg-gray-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                      {result.type === 'campaign' ? (
-                        // Campaign Result
-                        <>
-                          <div className="relative">
-                            <img 
-                              src={result.image} 
-                              alt={result.title} 
-                              className="w-full h-48 object-cover"
-                            />
-                            <div className="absolute top-3 left-3">
-                              <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                                {result.category}
-                              </span>
-                            </div>
-                            <div className="absolute top-3 right-3">
-                              <span className="bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
-                                {result.daysLeft} days left
-                              </span>
-                            </div>
-                          </div>
-                          <div className="p-6">
-                            <h3 className="font-bold text-gray-900 mb-2 line-clamp-2">{result.title}</h3>
-                            <p className="text-sm text-gray-600 mb-3 line-clamp-2">{result.description}</p>
-                            <p className="text-sm text-gray-500 mb-4">by {result.ngo}</p>
-                            
-                            <div className="space-y-3">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-gray-600">Raised:</span>
-                                <span className="font-semibold text-green-600">{result.raised}</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="text-gray-600">Goal:</span>
-                                <span className="font-semibold">{result.goal}</span>
-                              </div>
-                              <div className="flex justify-between text-sm">
-                                <span className="text-gray-600">Donors:</span>
-                                <span className="font-semibold">{result.donors}</span>
-                              </div>
-                            </div>
-                            
-                            <div className="mt-4">
-                              <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                <div 
-                                  className="bg-green-500 h-2 rounded-full" 
-                                  style={{ width: `${(parseInt(result.raised.replace(/[^\d]/g, '')) / parseInt(result.goal.replace(/[^\d]/g, ''))) * 100}%` }}
-                                ></div>
-                              </div>
-                              <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                                Support This Campaign
-                              </button>
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        // NGO Result
-                        <div className="p-6">
-                          <div className="flex items-center mb-4">
-                            <img src={result.image} alt={result.name} className="w-16 h-16 rounded-lg object-cover" />
-                            <div className="ml-4 flex-1">
-                              <div className="flex items-center justify-between">
-                                <h3 className="font-semibold text-gray-900">{result.name}</h3>
-                                {result.verified && (
-                                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                                    ✓ Verified
-                                  </span>
-                                )}
-                              </div>
-                              <div className="flex items-center mt-1">
-                                <div className="flex text-yellow-400">
-                                  {[...Array(5)].map((_, i) => (
-                                    <svg key={i} className={`w-4 h-4 ${i < Math.floor(result.rating) ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20">
-                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                  ))}
-                                </div>
-                                <span className="ml-2 text-sm text-gray-600">{result.rating}</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <p className="text-sm text-gray-600 mb-4 line-clamp-2">{result.description}</p>
-                          
-                          <div className="flex items-center justify-between mb-4">
-                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
-                              {result.cause}
-                            </span>
-                            <span className="text-sm text-gray-500">{result.donors} donors</span>
-                          </div>
-                          
-                          <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                            View NGO Profile
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
+                // <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                //   {searchResults.map((result, index) => (
+                //     <div key={`${result.type}-${result.id}-${index}`} className="bg-gray-50 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                //       {result.type === 'campaign' ? (
+                //         // Campaign Result
+                //         <>
+                //           <div className="relative">
+                //             <img
+                //               src={result.image}
+                //               alt={result.title}
+                //               className="w-full h-48 object-cover"
+                //             />
+                //             <div className="absolute top-3 left-3">
+                //               <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                //                 {result.category}
+                //               </span>
+                //             </div>
+                //             <div className="absolute top-3 right-3">
+                //               <span className="bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
+                //                 {result.daysLeft} days left
+                //               </span>
+                //             </div>
+                //           </div>
+                //           <div className="p-6">
+                //             <h3 className="font-bold text-gray-900 mb-2 line-clamp-2">{result.title}</h3>
+                //             <p className="text-sm text-gray-600 mb-3 line-clamp-2">{result.description}</p>
+                //             <p className="text-sm text-gray-500 mb-4">by {result.ngo}</p>
+
+                //             <div className="space-y-3">
+                //               <div className="flex justify-between text-sm">
+                //                 <span className="text-gray-600">Raised:</span>
+                //                 <span className="font-semibold text-green-600">{result.raised}</span>
+                //               </div>
+                //               <div className="flex justify-between text-sm">
+                //                 <span className="text-gray-600">Goal:</span>
+                //                 <span className="font-semibold">{result.goal}</span>
+                //               </div>
+                //               <div className="flex justify-between text-sm">
+                //                 <span className="text-gray-600">Donors:</span>
+                //                 <span className="font-semibold">{result.donors}</span>
+                //               </div>
+                //             </div>
+
+                //             <div className="mt-4">
+                //               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                //                 <div
+                //                   className="bg-green-500 h-2 rounded-full"
+                //                   style={{ width: `${(parseInt(result.raised.replace(/[^\d]/g, '')) / parseInt(result.goal.replace(/[^\d]/g, ''))) * 100}%` }}
+                //                 ></div>
+                //               </div>
+                //               <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                //                 Support This Campaign
+                //               </button>
+                //             </div>
+                //           </div>
+                //         </>
+                //       ) : (
+                //         // NGO Result
+                //         <div className="p-6">
+                //           <div className="flex items-center mb-4">
+                //             <img src={result.image} alt={result.name} className="w-16 h-16 rounded-lg object-cover" />
+                //             <div className="ml-4 flex-1">
+                //               <div className="flex items-center justify-between">
+                //                 <h3 className="font-semibold text-gray-900">{result.name}</h3>
+                //                 {result.verified && (
+                //                   <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                //                     ✓ Verified
+                //                   </span>
+                //                 )}
+                //               </div>
+                //               <div className="flex items-center mt-1">
+                //                 <div className="flex text-yellow-400">
+                //                   {[...Array(5)].map((_, i) => (
+                //                     <svg key={i} className={`w-4 h-4 ${i < Math.floor(result.rating) ? 'text-yellow-400' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20">
+                //                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                //                     </svg>
+                //                   ))}
+                //                 </div>
+                //                 <span className="ml-2 text-sm text-gray-600">{result.rating}</span>
+                //               </div>
+                //             </div>
+                //           </div>
+
+                //           <p className="text-sm text-gray-600 mb-4 line-clamp-2">{result.description}</p>
+
+                //           <div className="flex items-center justify-between mb-4">
+                //             <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                //               {result.cause}
+                //             </span>
+                //             <span className="text-sm text-gray-500">{result.donors} donors</span>
+                //           </div>
+
+                //           <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                //             View NGO Profile
+                //           </button>
+                //         </div>
+                //       )}
+                //     </div>
+                //   ))}
+                // </div>
+                <><SearchResultsSlider searchResults={searchResults} /></>
+              )
+              }
             </div>
           )}
         </div>
 
+        <FilteredNgoDisplay />
+
         {/* Campaign Categories */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Explore by Category</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 tracking-wide mb-6">Explore by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {campaignCategories.map((category) => (
               <button
                 key={category.name}
                 onClick={() => handleCategoryClick(category.name)}
-                className={`flex flex-col items-center p-4 border rounded-lg transition-colors ${
-                  selectedCategory === category.name 
-                    ? 'border-blue-500 bg-blue-50' 
-                    : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
-                }`}
+                className={`flex flex-col items-center p-4 border rounded-lg transition-colors ${selectedCategory === category.name
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                  }`}
               >
                 <div className="text-2xl mb-2">{category.icon}</div>
                 <div className="text-sm font-medium text-gray-900">{category.name}</div>
@@ -627,7 +642,7 @@ const DonorHome = () => {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">{selectedCategory} Campaigns</h2>
-              <button 
+              <button
                 onClick={() => setSelectedCategory(null)}
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
@@ -638,9 +653,9 @@ const DonorHome = () => {
               {campaignsByCategory[selectedCategory].map((campaign) => (
                 <div key={campaign.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                   <div className="relative">
-                    <img 
-                      src={campaign.image} 
-                      alt={campaign.title} 
+                    <img
+                      src={campaign.image}
+                      alt={campaign.title}
                       className="w-full h-48 object-cover"
                     />
                     <div className="absolute top-3 left-3">
@@ -658,7 +673,7 @@ const DonorHome = () => {
                     <h3 className="font-bold text-gray-900 mb-2 line-clamp-2">{campaign.title}</h3>
                     <p className="text-sm text-gray-600 mb-3 line-clamp-2">{campaign.description}</p>
                     <p className="text-sm text-gray-500 mb-4">by {campaign.ngo}</p>
-                    
+
                     <div className="space-y-3">
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">Raised:</span>
@@ -673,11 +688,11 @@ const DonorHome = () => {
                         <span className="font-semibold">{campaign.donors}</span>
                       </div>
                     </div>
-                    
+
                     <div className="mt-4">
                       <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                        <div 
-                          className="bg-green-500 h-2 rounded-full" 
+                        <div
+                          className="bg-green-500 h-2 rounded-full"
                           style={{ width: `${(parseInt(campaign.raised.replace(/[^\d]/g, '')) / parseInt(campaign.goal.replace(/[^\d]/g, ''))) * 100}%` }}
                         ></div>
                       </div>
@@ -695,7 +710,7 @@ const DonorHome = () => {
         {/* Trending Campaigns */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Trending Campaigns</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800 tracking-wide">Trending Campaigns</h2>
             <button className="text-blue-600 hover:text-blue-700 font-medium">
               View All Campaigns →
             </button>
@@ -704,9 +719,9 @@ const DonorHome = () => {
             {trendingCampaigns.map((campaign) => (
               <div key={campaign.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                 <div className="relative">
-                  <img 
-                    src={campaign.image} 
-                    alt={campaign.title} 
+                  <img
+                    src={campaign.image}
+                    alt={campaign.title}
                     className="w-full h-48 object-cover"
                   />
                   <div className="absolute top-3 left-3">
@@ -724,7 +739,7 @@ const DonorHome = () => {
                   <h3 className="font-bold text-gray-900 mb-2 line-clamp-2">{campaign.title}</h3>
                   <p className="text-sm text-gray-600 mb-3 line-clamp-2">{campaign.description}</p>
                   <p className="text-sm text-gray-500 mb-4">by {campaign.ngo}</p>
-                  
+
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Raised:</span>
@@ -739,11 +754,11 @@ const DonorHome = () => {
                       <span className="font-semibold">{campaign.donors}</span>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4">
                     <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                      <div 
-                        className="bg-green-500 h-2 rounded-full" 
+                      <div
+                        className="bg-green-500 h-2 rounded-full"
                         style={{ width: `${(parseInt(campaign.raised.replace(/[^\d]/g, '')) / parseInt(campaign.goal.replace(/[^\d]/g, ''))) * 100}%` }}
                       ></div>
                     </div>
@@ -758,9 +773,9 @@ const DonorHome = () => {
         </div>
 
         {/* Featured NGOs */}
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Featured NGOs</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800 tracking-wide">Featured NGOs</h2>
             <button className="text-blue-600 hover:text-blue-700 font-medium">
               Browse All NGOs →
             </button>
@@ -791,23 +806,23 @@ const DonorHome = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <p className="text-sm text-gray-600 mb-4 line-clamp-2">{ngo.description}</p>
-                
+
                 <div className="flex items-center justify-between mb-4">
                   <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
                     {ngo.cause}
                   </span>
                   <span className="text-sm text-gray-500">{ngo.donors} donors</span>
                 </div>
-                
+
                 <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
                   View NGO Profile
                 </button>
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Quick Actions */}
         <div className="bg-white rounded-xl shadow-sm p-6">

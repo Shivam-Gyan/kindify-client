@@ -1,5 +1,7 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import authService from '../services/auth.service';
+import ngoDatabaseServices from '../databaseService/ngo.database.service';
+import { use } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -7,21 +9,24 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [NgoByFilter, setNgoByFilter] = useState([]);
+  const [ngos, setNgos] = useState([]); // optional: full NGO data if needed
 
+  // Fetch user profile on app load
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
         if (!token) {
           setLoading(false);
           return;
         }
+
         const data = await authService.getUserProfile();
+        console.log('Fetched user profile:', data);
         setUser(data);
       } catch (err) {
-        console.error("Error fetching user profile:", err);
+        console.error('Error fetching user profile:', err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -29,8 +34,39 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchUser();
+
+    
   }, []);
 
+  const fetchNgos = useCallback(async () => {
+    try {
+      const params = {
+        country: '',
+        state: '',
+        city: '',
+        category: [],
+        certified: null,
+      };
+      setLoading(true);
+      const data = await ngoDatabaseServices.filterNgo(params);
+      setNgoByFilter(data);
+      console.log('Fetched NGOs:', data);
+      setNgos(data.data || []); // Assuming data is in data.data
+      setError('');
+    } catch (err) {
+      console.error('Error fetching NGOs:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    // Fetch NGOs with default filters on initial load
+    fetchNgos();
+  }, [ fetchNgos]);
+
+  // Login function
   const login = async (credentials, role) => {
     try {
       setError(null);
@@ -43,6 +79,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Google login function
   const googleAuth = async (googleToken, role) => {
     try {
       setError(null);
@@ -55,9 +92,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Logout function
   const logout = () => {
     authService.logout();
     setUser(null);
+    localStorage.removeItem('token');
+    window.location.href = '/'; // Optional: redirect on logout
   };
 
   const value = {
@@ -71,13 +111,20 @@ export const AuthProvider = ({ children }) => {
     googleAuth,
     NgoByFilter,
     setNgoByFilter,
+    ngos,
+    setNgos,
+    fetchNgos, // renamed from `ngos` to `fetchNgos` for clarity
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? (
+        <div className="p-8 text-center text-gray-500">Loading...</div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };
