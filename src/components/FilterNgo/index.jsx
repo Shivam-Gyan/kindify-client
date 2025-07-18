@@ -313,13 +313,20 @@ const FilterNgo = ({ setShowFilter }) => {
                     {/* </div> */}
 
                     {/* Filter Button */}
-                    <div className="lg:col-span-3 flex justify-center mt-4">
+                    <div className="lg:col-span-3 flex justify-center gap-6 mt-4">
                         <button
                             onClick={handleFilter}
                             disabled={loading}
                             className="w-full sm:w-auto px-8 py-3 bg-white text-indigo-700 text-sm border-2 border-indigo-600 font-semibold rounded-lg hover:bg-indigo-50"
                         >
                             {loading ? 'Filtering...' : 'Apply Filters'}
+                        </button>
+                        <button
+                            onClick={()=>{ setShowFilter(false); setNgoByFilter([]); setError("");}}
+                            disabled={loading}
+                            className="w-full sm:w-auto px-8 py-3 bg-white text-indigo-700 text-sm border-2 border-indigo-600 font-semibold rounded-lg hover:bg-indigo-50"
+                        >
+                            Cancel Filter
                         </button>
                     </div>
                 </div>

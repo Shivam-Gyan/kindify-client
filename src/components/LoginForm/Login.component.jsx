@@ -1,19 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputComponent from "../InputComponent";
 import { toast } from "react-hot-toast";
 import authService from "../../services/auth.service";
 import OtpComponent from "../OTPComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { use } from "react";
 
 const LoginComponent = ({ role }) => {
-    const { setUser,setLoading } = useAuth(); // ✅ fix useAuth usage
+    const { user, setUser, setLoading } = useAuth(); // ✅ fix useAuth usage
 
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
 
+    
     const [error, setError] = useState("");
     const [forgotPassword, setForgotPassword] = useState(false);
     const navigate = useNavigate();
@@ -109,6 +111,8 @@ const LoginComponent = ({ role }) => {
             }
         );
     };
+
+
 
     return (
         <>
