@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import Logo from '../../image/onlylogo.png'
-import { Navigate } from 'react-router-dom'; // Assuming you have a routing setup
+import { Link, Navigate } from 'react-router-dom'; // Assuming you have a routing setup
 import NotificationBell from '../Notifications/NotificationBell';
 import { useAuth } from '../../context/AuthContext';
 
-const DashboardNavbar = ({ }) => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+const DashboardNavbar = ({isMenuOpen, setIsMenuOpen }) => {
+
     const { user, logout } = useAuth();
 
     const handleMenuToggle = () => {
+        console.log("Menu toggled", isMenuOpen);
         setIsMenuOpen(!isMenuOpen);
     }
 
@@ -22,7 +23,7 @@ const DashboardNavbar = ({ }) => {
                 >
                     <i className="fi fi-br-bars-staggered text-xl md:text-2xl "></i>
                 </div>
-                <img src={Logo} alt="" className="" />
+                {/* <img src={user?.user?.profilePicture} alt="" className='object-cover h-10' /> */}
             </div>
 
             {/* search */}
@@ -30,7 +31,7 @@ const DashboardNavbar = ({ }) => {
                 <input
                     type="text"
                     placeholder='Search'
-                    className='p-2 px-3 bg-transparent outline-none text-sm text-gray-700 sm:bg-green w-48 md:w-[50vh] lg:min-w-[60vh] lg:max-w-[80vh]'
+                    className='p-2 px-3 bg-transparent outline-none text-sm text-gray-700 sm:bg-green w-48  lg:w-[60vh]'
                 />
                 <i className='fi fi-rs-search text-gray-400 mr-2 mt-1'></i>
             </div>
@@ -41,17 +42,17 @@ const DashboardNavbar = ({ }) => {
                 <NotificationBell />
                 
                 {/* User Profile */}
-                <div className='flex items-center gap-3'>
-                    <div className='h-10 w-10 rounded-full bg-[#F1F2F7] flex items-center justify-center'>
-                        <i className="fi fi-sr-user text-gray-600"></i>
-                    </div>
+                <div className='flex items-center gap-2 max-md:mr-2  mr-4'>
+                    <Link to={'/donor-dashboard/account'}  className='h-10 w-10 flex-none rounded-full bg-[#F1F2F7] overflow-hidden '>
+                        <img src={user?.user?.profilePicture} alt="" className='object-cover h-10' />
+                    </Link>  
                     <div className='hidden md:block'>
-                        <span className='text-sm font-medium text-gray-700'>
-                            {user?.name || 'User'}
+                        <span className='text-md text-indigo-600 font-semibold text-gray-700'>
+                            {user?.user?.name || 'Donor'}
                         </span>
-                        <div className='text-xs text-gray-500 capitalize'>
+                        {/* <div className='text-sm -mt-2 text-gray-500 capitalize'>
                             {user?.role || 'donor'}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

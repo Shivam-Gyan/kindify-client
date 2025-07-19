@@ -398,24 +398,24 @@ const DonorHome = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header with Navigation */}
-      <header className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-xl font-bold text-gray-900">Kindify</h1>
-              <span className="text-sm text-gray-500">| Donor Portal</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => navigate('/donor-dashboard')}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Go to Dashboard
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <header className="bg-white py-3 border-b-[1px] border-gray-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-16">
+                        <div className="flex items-center space-x-4">
+                            <img src="https://res.cloudinary.com/dglwzejwk/image/upload/v1750157677/logoblack_ly0mlm.png" alt="Kindify Logo" className='h-8' />
+                            <span className="text-md rounded-lg text-gray-600 px-3 py-1 bg-gray-100"> Donor <span className='text-indigo-500 font-semibold capitalize ml-3'>{user?.user?.name}</span> </span>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <button
+                                onClick={() => navigate('/donor-dashboard')}
+                                className="bg-gray-100 font-semibold text-indigo-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+                            >
+                                Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
