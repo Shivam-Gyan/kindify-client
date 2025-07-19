@@ -50,6 +50,7 @@ import SignupForm from './pages/SignupPage/signup.jsx';
 import NgoSingupComponent from './components/SignupForm/ngo.signup.component';
 import LoginPageForm from './pages/LoginPage/login.page.jsx';
 import ProtectedRoute from './components/ProtectedRoute'; // Assuming you saved it there
+import NgoCompleteDetailsPage from './pages/NgoCompleteDetailsPage/index.jsx';
 
 const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
 
@@ -96,6 +97,7 @@ function AppContent() {
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/donor-home" element={<ProtectedRoute><DonorHome /></ProtectedRoute>} />
       <Route path="/ngo-home" element={<ProtectedRoute><NGOHome /></ProtectedRoute>} />
+      <Route path="/ngo/:ngoid" element={<NgoCompleteDetailsPage />} />
       <Route
         path="/*"
         element={

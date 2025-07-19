@@ -71,6 +71,32 @@ const ngoDatabaseServices = {
         } catch (error) {
             throw error;
         }
+    },
+    getNgoProfile: async (ngoid) => {
+        try {
+            const response = await api.get(`${API_URL}/ngo/get-ngo-profile/${ngoid}`, {
+                withCredentials: true // If your API requires credentials
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching NGO profile:", error);
+            throw error;
+        }
+    },
+    followNgo: async (ngoId, like, follow) => {
+        try {
+            const response = await api.post(`${API_URL}/ngo/follow-ngo`, { ngoId, like, follow }, {
+                withCredentials: true, // If your API requires credentials
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error following NGO:", error);
+            throw error;
+        }
     }
 }
 

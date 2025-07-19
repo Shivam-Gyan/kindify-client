@@ -142,13 +142,13 @@ const NotificationBell = () => {
             {/* Notification Bell */}
             <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+                className="relative p-2    text-gray-600 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
             >
-                <i className="fi fi-sr-bell-notification-social-media text-xl"></i>
-                
+                <span className='h-10 w-10 bg-gray-200 flex items-center justify-center rounded-full'><i className="fi fi-sr-bell-notification-social-media text-xl mt-2"></i></span>
+
                 {/* Unread Badge */}
                 {unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                    <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                         {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
                 )}

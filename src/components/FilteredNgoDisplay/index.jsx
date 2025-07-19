@@ -13,7 +13,7 @@ const FilteredNgoDisplay = () => {
   const [x, setX] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
 
-  const displayedNgos = NgoByFilter.length > 0 ? NgoByFilter : dummyNgos;
+  const displayedNgos = NgoByFilter.length > 0 ? NgoByFilter : ngos;
 
   useEffect(() => {
     const updateScrollLimit = () => {

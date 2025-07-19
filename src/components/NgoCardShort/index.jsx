@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const NgoShortCard = ({ data }) => (
   <div className="bg-white shadow-md rounded-xl p-4 hover:shadow-xl transition-shadow h-full border border-gray-100">
     <img
@@ -6,10 +8,10 @@ const NgoShortCard = ({ data }) => (
       className="w-full h-40 object-cover rounded-lg mb-4 border"
     />
 
-    <h3 className="text-xl font-semibold text-gray-800 mb-1">{data.name}</h3>
+    <Link to={`/ngo/${data.userObjectId}`} className="text-xl capitalize font-semibold hover:text-blue-500 hover:underline text-gray-800 truncate mb-1">{data.name}</Link>
 
-    <p className="text-sm text-gray-500 mb-3 flex items-center">
-      <i className="fi fi-ss-marker mr-2"></i> {data.address.city}, {data.address.state}
+    <p className="text-sm text-gray-500 mb-3 flex items-center mt-1">
+      <i className="fi fi-ss-marker mr-2 mt-1"></i> {data.address.city}, {data.address.state}
     </p>
 
     <div className="flex flex-wrap gap-2 mb-3">
