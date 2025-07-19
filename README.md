@@ -8,3 +8,7 @@ Frontend of Kindify project
 - TypeScript
 - Vite
 - Tailwind CSS
+
+## Contributors
+Aman Soni
+Shivam Gupta
